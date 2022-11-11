@@ -1,0 +1,14 @@
+GET https://bartola.hibabys.com.br/api/time
+
+###
+
+POST http://177.44.248.33/api/users
+content-type: application/json
+
+{
+    "name": "JONAS",
+    "password": "123",
+    "age": 12,
+    "sex": "M",
+    "email": "jonasdhein1@gmail.com"
+}
