@@ -9,10 +9,15 @@
     "web": "expo start --web"
   },
   "dependencies": {
-    "expo": "~47.0.3",
+    "@react-native-picker/picker": "2.4.8",
+    "expo": "~46.0.16",
     "expo-status-bar": "~1.4.2",
-    "react": "18.1.0",
-    "react-native": "0.70.5"
+    "prop-types": "^15.8.1",
+    "react": "18.0.0",
+    "react-native": "0.69.6",
+    "react-native-picker-select": "^8.0.4",
+    "react-native-svg": "13.4.0",
+    "react-native-svg-transformer": "^1.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9"
