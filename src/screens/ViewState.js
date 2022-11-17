@@ -4,7 +4,10 @@ import { SafeAreaView, StyleSheet, Text, TouchableOpacity, View } from 'react-na
 
 // import { Container } from './styles';
 
-const ViewState = () => {
+const ViewState = (props) => {
+
+    console.log('PROPS', props)
+
     const [count, setCount] = useState(0);
     const [user, setUser] = useState({
       name: "Jonas",
