@@ -1,36 +1,73 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import LottieView from 'lottie-react-native';
 import Checkbox from 'expo-checkbox';
+import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ViewTasks = () => {
 
-    const [taskList, setTaskList] = useState([])
+    const [taskList, setTaskList] = useState()
     const [task, setTask] = useState('')
 
-    const updateTaskList = () => {
+    useEffect(() => {
+
+        const getTasksAsync = async () => {
+            const variavel = await AsyncStorage.getItem('@tasklist');
+
+            setTaskList(JSON.parse(variavel));
+        }
+
+        getTasksAsync()
+
+    }, [])
+
+
+    const updateTaskList = async () => {
         if (task) {
+
             const newTask = {
                 id: String(new Date().getTime()),
                 name: task,
                 done: false
             }
 
-            setTaskList([...taskList, newTask])
+            const orderTaskList = [...taskList, newTask]
+                .sort((a, b) => (a.name > b.name ? 1 : (b.name > a.name ? -1 : 0)));
+
+            /*
+                if(a.name > b.name){
+                    return 1;
+                }else if(b.name > a.name){
+                    return -1;
+                }else{
+                    return 0;
+                }
+            */
+
+            setTaskList(orderTaskList)
             setTask('')
+
+            await AsyncStorage.setItem('@tasklist', JSON.stringify(orderTaskList));
+
         } else {
             Alert.alert('Ops', 'Tarefa não pode ser em branco');
         }
     }
 
-    const deleteTask = (id) => {
+    const deleteTask = async (id) => {
         //queremos excluir o item que contém este ID da lista
         Alert.alert('Atenção', 'Deseja mesmo excluir a tarefa?', [
             {
                 text: "Sim",
-                onPress: () => {
-                    setTaskList([...taskList.filter((item) => item.id !== id)])
+                onPress: async () => {
+
+                    const newList = [...taskList.filter((item) => item.id !== id)]
+                    setTaskList(newList)
+
+                    await AsyncStorage.setItem('@tasklist', JSON.stringify(newList));
+
                 }
             },
             {
@@ -40,17 +77,19 @@ const ViewTasks = () => {
         ]);
     }
 
-    const handleCheckTask = (id) => {
+    const handleCheckTask = async (id) => {
 
         const newTaskList = taskList.map(item => {
-            if(item.id == id){
+            if (item.id == id) {
                 //encontramos o elemento a ser alterado
-                return {...item, done: !item.done}
+                return { ...item, done: !item.done }
             }
             return item;
         })
 
         setTaskList(newTaskList);
+
+        await AsyncStorage.setItem('@tasklist', JSON.stringify(newTaskList));
 
     }
 
@@ -74,7 +113,7 @@ const ViewTasks = () => {
                 onPress={updateTaskList}
             />
             {
-                taskList.length > 0 ?
+                taskList != null && taskList.length > 0 ?
                     taskList.map(item => {
                         return (
                             <View
@@ -85,7 +124,15 @@ const ViewTasks = () => {
                                     onValueChange={() => handleCheckTask(item.id)}
                                     color={item.done ? '#444' : '#fff'}
                                 />
-                                <Text style={[styles.itemText, { textDecorationLine: item.done ? 'line-through' : 'none' }]}>{item.name}</Text>
+                                <Text
+                                    style={[styles.itemText,
+                                    { textDecorationLine: item.done ? 'line-through' : 'none' }]}>
+                                    {item.name}
+                                </Text>
+                                <TouchableOpacity
+                                    onPress={() => deleteTask(item.id)}>
+                                    <Ionicons name="trash-outline" size={24} color="#fff" />
+                                </TouchableOpacity>
                             </View>
                         )
                     })
@@ -136,7 +183,9 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between'
     },
     itemText: {
+        flex: 1,
         color: '#fff',
+        paddingLeft: 8,
         fontSize: 24
     }
 });
