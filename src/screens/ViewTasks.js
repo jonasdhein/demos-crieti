@@ -8,21 +8,41 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const ViewTasks = () => {
 
-    const [taskList, setTaskList] = useState()
+    const [taskList, setTaskList] = useState([])
     const [task, setTask] = useState('')
 
     useEffect(() => {
 
         const getTasksAsync = async () => {
-            const variavel = await AsyncStorage.getItem('@tasklist');
-
-            setTaskList(JSON.parse(variavel));
+            try {
+                const variavel = await AsyncStorage.getItem('@tasklist');
+                if (variavel != null) {
+                    setTaskList(JSON.parse(variavel));
+                }
+            } catch (e) {
+                console.log('ERROR GET=>', e)
+            }
         }
 
         getTasksAsync()
 
     }, [])
 
+    useEffect(() => {
+
+        const setTaskAsync = async () => {
+            try {
+                if (taskList) {
+                    await AsyncStorage.setItem('@tasklist', JSON.stringify(taskList));
+                }
+            } catch (e) {
+                console.log('ERROR=>', e);
+            }
+        }
+
+        setTaskAsync()
+
+    }, [taskList])
 
     const updateTaskList = async () => {
         if (task) {
@@ -49,7 +69,7 @@ const ViewTasks = () => {
             setTaskList(orderTaskList)
             setTask('')
 
-            await AsyncStorage.setItem('@tasklist', JSON.stringify(orderTaskList));
+            //await AsyncStorage.setItem('@tasklist', JSON.stringify(orderTaskList));
 
         } else {
             Alert.alert('Ops', 'Tarefa não pode ser em branco');
@@ -66,7 +86,7 @@ const ViewTasks = () => {
                     const newList = [...taskList.filter((item) => item.id !== id)]
                     setTaskList(newList)
 
-                    await AsyncStorage.setItem('@tasklist', JSON.stringify(newList));
+                    //await AsyncStorage.setItem('@tasklist', JSON.stringify(newList));
 
                 }
             },
@@ -89,7 +109,7 @@ const ViewTasks = () => {
 
         setTaskList(newTaskList);
 
-        await AsyncStorage.setItem('@tasklist', JSON.stringify(newTaskList));
+        //await AsyncStorage.setItem('@tasklist', JSON.stringify(newTaskList));
 
     }
 
