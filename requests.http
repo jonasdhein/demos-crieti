@@ -1,4 +1,9 @@
-GET https://bartola.hibabys.com.br/api/time
+//lista de tarefas
+GET http://177.44.248.62:3001/tasks
+
+###
+
+POST http://177.44.248.30:3333/auth
 
 ###
 

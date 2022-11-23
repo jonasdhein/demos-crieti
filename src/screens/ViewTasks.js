@@ -26,7 +26,7 @@ const ViewTasks = () => {
 
         getTasksAsync()
 
-    }, [])
+    }, []) //executa apenas na primeira renderizacao do componente
 
     useEffect(() => {
 

@@ -8,6 +8,7 @@ import ViewNav1 from "./src/screens/ViewNav1";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import ViewTasks from "./src/screens/ViewTasks";
+import ViewLogin from "./src/screens/ViewLogin";
 
 const Stack = createNativeStackNavigator();
 
@@ -15,8 +16,11 @@ export default function App() {
   return (
     <>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: true }} >
+        <Stack.Navigator
+          initialRouteName="ViewLogin"
+          screenOptions={{ headerShown: true }} >
           <Stack.Screen name="ViewNav1" component={ViewNav1} />
+          <Stack.Screen name="ViewLogin" component={ViewLogin} />
           <Stack.Screen name="ViewState" component={ViewState} />
           <Stack.Screen name="ViewEffect" component={ViewEffect} />
           <Stack.Screen name="ViewImages" component={ViewImages} />
