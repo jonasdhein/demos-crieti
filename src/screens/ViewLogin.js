@@ -1,36 +1,75 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import { theme } from '../styles/Theme';
+import Checkbox from 'expo-checkbox';
 const base64 = require('base-64');
+import * as SecureStore from 'expo-secure-store';
 
-const ViewLogin = (props) => {
+const ViewLogin = ({ navigation }) => {
 
+    const fieldUser = "myapp_usuario";
+    const fieldPassword = "myapp_senha";
     const [loading, setLoading] = useState(false);
     const [usuario, setUsuario] = useState({
         username: '',
-        password: ''
+        password: '',
+        saveUser: false,
     });
 
-    async function login() {
+    useEffect(() => {
+
+        async function getSecureStore(){
+            const _username = await SecureStore.getItemAsync(fieldUser);
+            const _password = await SecureStore.getItemAsync(fieldPassword);
+            if(_username && _password) {
+                /*setUsuario({
+                    username: _username,
+                    password: _password,
+                    saveUser: true
+                });*/
+                login(_username, _password);
+            }
+        }
+
+        getSecureStore();
+
+    }, []) //seja executado somente na primeira renderizacao do componente
+
+    function login(user, pass) {
 
         setLoading(true);
-        const response = await fetch('http://177.44.248.30:3333/auth', {
-            method: 'POST',
-            headers: {
-                'Authorization': 'Basic ' +
-                    base64.encode(usuario.username + ":" + usuario.password)
-            }
-        });
-        const json = await response.json();
 
-        setLoading(false);
-        if (json.id) {
-            //navegar adiante
-            props.navigation.navigate("ViewNav1");
-        } else {
-            Alert.alert('Que pena 😥', json.message);
-        }
+        setTimeout(() => {
+
+            async function testLogin() {
+                const response = await fetch('http://177.44.248.30:3333/auth', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Basic ' +
+                            base64.encode(user + ":" + pass)
+                    }
+                });
+                const json = await response.json();
+
+                setLoading(false);
+                if (json.id) {
+                    if(usuario.saveUser){
+                        await SecureStore.setItemAsync(fieldUser, usuario.username);
+                        await SecureStore.setItemAsync(fieldPassword, usuario.password);
+                        console.log("gravou");
+                    }
+
+                    //navegar adiante
+                    navigation.navigate("ViewUsers");
+                } else {
+                    Alert.alert('Que pena 😥', json.message);
+                }
+            }
+
+            testLogin();
+
+        }, 900)
 
     }
 
@@ -56,9 +95,21 @@ const ViewLogin = (props) => {
                         onChangeText={(value) => setUsuario({ ...usuario, password: value })}
                         style={theme.input}
                         placeholder="Senha" />
+
+                    <View style={styles.checkbox}>
+                        <Checkbox
+                            value={usuario.saveUser}
+                            onValueChange={() => 
+                                setUsuario({...usuario, saveUser: !usuario.saveUser})
+                            }
+                        />
+
+                        <Text style={[theme.label, { marginLeft: 8 } ]}>Manter-me conectado</Text>
+                    </View>
+
                     <CustomButton
                         label="ENTRAR"
-                        onPress={() => login()}
+                        onPress={() => login(usuario.username, usuario.password)}
                         backgroundColor="#bebebe"
                         textColor="#000" />
                 </>
@@ -74,6 +125,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: 'center',
+        alignItems: 'center',
+    },
+    checkbox: {
+        width: '80%',
+        flexDirection: 'row',
         alignItems: 'center',
     }
 });

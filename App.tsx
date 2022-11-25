@@ -1,4 +1,5 @@
 import { StatusBar } from "expo-status-bar";
+
 import ViewEffect from "./src/screens/ViewEffect";
 import ViewImages from "./src/screens/ViewImages";
 import ViewPicker from "./src/screens/ViewPicker";
@@ -6,6 +7,7 @@ import ViewState from "./src/screens/ViewState";
 import ViewNav1 from "./src/screens/ViewNav1";
 import ViewTasks from "./src/screens/ViewTasks";
 import ViewLogin from "./src/screens/ViewLogin";
+import ViewUsers from "./src/screens/ViewUsers";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -40,6 +42,7 @@ export default function App() {
             initialRouteName="ViewLogin"
             screenOptions={{ headerShown: true }} >
             <Stack.Screen name="ViewNav1" component={ViewNav1} />
+            <Stack.Screen name="ViewUsers" component={ViewUsers} />
             <Stack.Screen name="ViewLogin" component={ViewLogin} />
             <Stack.Screen name="ViewState" component={ViewState} />
             <Stack.Screen name="ViewEffect" component={ViewEffect} />

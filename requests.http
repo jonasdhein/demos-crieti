@@ -1,19 +1,8 @@
 //lista de tarefas
-GET http://177.44.248.62:3001/tasks
-
+GET http://177.44.248.30:3333/users
+Authorization: Basic bWF0ZXVzQG1hdGV1cy5jb206MTIzNDU= 
 ###
 
 POST http://177.44.248.30:3333/auth
 
 ###
-
-POST http://177.44.248.33/api/users
-content-type: application/json
-
-{
-    "name": "JONAS",
-    "password": "123",
-    "age": 12,
-    "sex": "M",
-    "email": "jonasdhein1@gmail.com"
-}

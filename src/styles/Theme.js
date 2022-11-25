@@ -25,6 +25,15 @@ export const theme = StyleSheet.create({
         fontFamily: "RobotoSlab_700Bold",
         textAlign: 'center',
     },
+    label: {
+        fontSize: 16,
+        marginTop: 30,
+        fontFamily: "RobotoSlab_400Regular"
+    },
+    title: {
+        fontSize: 32,
+        fontFamily: "RobotoSlab_700Bold"
+    },
     shadows: {
         shadowColor: '#000',
         shadowOffset: {
