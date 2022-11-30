@@ -1,6 +1,10 @@
 import { StyleSheet } from 'react-native';
 
 export const theme = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff'
+    },
     input: {
         borderWidth: 1,
         borderColor: '#555',
@@ -27,7 +31,6 @@ export const theme = StyleSheet.create({
     },
     label: {
         fontSize: 16,
-        marginTop: 30,
         fontFamily: "RobotoSlab_400Regular"
     },
     title: {

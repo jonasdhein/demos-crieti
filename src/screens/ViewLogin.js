@@ -58,6 +58,9 @@ const ViewLogin = ({ navigation }) => {
                         await SecureStore.setItemAsync(fieldUser, usuario.username);
                         await SecureStore.setItemAsync(fieldPassword, usuario.password);
                         console.log("gravou");
+                    }else{
+                        await SecureStore.deleteItemAsync(fieldUser);
+                        await SecureStore.deleteItemAsync(fieldPassword);
                     }
 
                     //navegar adiante
