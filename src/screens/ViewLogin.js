@@ -5,6 +5,7 @@ import { theme } from '../styles/Theme';
 import Checkbox from 'expo-checkbox';
 const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
+import { AppContext } from '../context/AppContext';
 
 const ViewLogin = ({ navigation }) => {
 
@@ -32,7 +33,7 @@ const ViewLogin = ({ navigation }) => {
             }
         }
 
-        getSecureStore();
+        //getSecureStore();
 
     }, []) //seja executado somente na primeira renderizacao do componente
 

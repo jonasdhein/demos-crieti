@@ -4,7 +4,6 @@ const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from '../styles/Theme';
-import SkeletonPlaceholder from 'react-native-skeleton-placeholder'; 'react-native-skeleton-placeholder';
 import { AppContext } from '../context/AppContext';
 
 export default ViewUsers = () => {
@@ -35,7 +34,7 @@ export default ViewUsers = () => {
             method: 'GET',
             headers: {
                 'Authorization': 'Basic ' +
-                    base64.encode(context.username + ":" + context.password)
+                    base64.encode(username + ":" + password)
             }
         });
         const json = await response.json();
