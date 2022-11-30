@@ -1,10 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { StyleSheet, ScrollView, Text, View, TouchableOpacity, FlatList } from 'react-native';
 const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from '../styles/Theme';
-import CustomButton from '../components/CustomButton';
+import SkeletonPlaceholder from 'react-native-skeleton-placeholder'; 'react-native-skeleton-placeholder';
+import { AppContext } from '../context/AppContext';
 
 export default ViewUsers = () => {
 
@@ -12,6 +13,9 @@ export default ViewUsers = () => {
     const fieldPassword = "myapp_senha";
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
+
+    const { username, password } = useContext(AppContext);
+    console.log('CREDENTIALS=>', username);
 
     /*
         Busca os usuários da API (através do listUsers)
@@ -25,16 +29,13 @@ export default ViewUsers = () => {
 
         setLoading(true);
 
-        const _username = await SecureStore.getItemAsync(fieldUser);
-        const _password = await SecureStore.getItemAsync(fieldPassword);
-
-        console.log('CREDENTIALS=>', _username, _password);
+        //console.log('CREDENTIALS=>', _username, _password);
 
         const response = await fetch('http://177.44.248.30:3333/users', {
             method: 'GET',
             headers: {
                 'Authorization': 'Basic ' +
-                    base64.encode(_username + ":" + _password)
+                    base64.encode(context.username + ":" + context.password)
             }
         });
         const json = await response.json();
@@ -50,6 +51,12 @@ export default ViewUsers = () => {
 
     return (
         <View style={theme.container}>
+            {/* <SkeletonPlaceholder
+                speed={600}>
+                <SkeletonPlaceholder.Item
+                    width={200}
+                    height={45} />
+            </SkeletonPlaceholder> */}
             <FlatList
                 data={users}
                 keyExtractor={item => item.id}

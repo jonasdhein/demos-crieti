@@ -20,6 +20,7 @@ import {
   RobotoSlab_900Black
 } from '@expo-google-fonts/roboto-slab'
 import { useFonts } from 'expo-font'; //1
+import { AppProvider } from "./src/context/AppContext";
 
 const Stack = createNativeStackNavigator();
 
@@ -36,27 +37,29 @@ export default function App() {
 
   if (fontsLoaded) { //3
     return (
-      <>
-        <NavigationContainer>
-          <Stack.Navigator
-            initialRouteName="ViewLogin"
-            screenOptions={{ headerShown: true }} >
-            <Stack.Screen name="ViewNav1" component={ViewNav1} />
-            <Stack.Screen name="ViewUsers" component={ViewUsers} />
-            <Stack.Screen name="ViewLogin" component={ViewLogin} />
-            <Stack.Screen name="ViewState" component={ViewState} />
-            <Stack.Screen name="ViewEffect" component={ViewEffect} />
-            <Stack.Screen name="ViewImages" component={ViewImages} />
-            <Stack.Screen name="ViewPicker" component={ViewPicker} />
-            <Stack.Screen name="ViewTasks" component={ViewTasks} />
-          </Stack.Navigator>
-        </NavigationContainer>
+      <AppProvider>
+        <>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName="ViewUsers"
+              screenOptions={{ headerShown: true }} >
+              <Stack.Screen name="ViewNav1" component={ViewNav1} />
+              <Stack.Screen name="ViewUsers" component={ViewUsers} />
+              <Stack.Screen name="ViewLogin" component={ViewLogin} />
+              <Stack.Screen name="ViewState" component={ViewState} />
+              <Stack.Screen name="ViewEffect" component={ViewEffect} />
+              <Stack.Screen name="ViewImages" component={ViewImages} />
+              <Stack.Screen name="ViewPicker" component={ViewPicker} />
+              <Stack.Screen name="ViewTasks" component={ViewTasks} />
+            </Stack.Navigator>
+          </NavigationContainer>
 
-        <StatusBar
-          translucent={false}
-          backgroundColor="#fff"
-          style="auto" />
-      </>
+          <StatusBar
+            translucent={false}
+            backgroundColor="#fff"
+            style="auto" />
+        </>
+      </AppProvider>
     );
   } else {
     return (
