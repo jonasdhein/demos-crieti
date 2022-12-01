@@ -1,20 +1,28 @@
 import React from 'react';
-import { View } from 'react-native';
+import { Dimensions, Text, View } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
+import { LinearGradient } from 'expo-linear-gradient';
 
-// import { Container } from './styles';
+const width = Dimensions.get('window').width * 0.9;
 
 const ViewSkeleton = () => {
   return (
-    <SkeletonPlaceholder borderRadius={4}>
-      <SkeletonPlaceholder.Item flexDirection="row" alignItems="center">
-        <SkeletonPlaceholder.Item width={60} height={60} borderRadius={50} />
-        <SkeletonPlaceholder.Item marginLeft={20}>
-          <SkeletonPlaceholder.Item width={120} height={20} />
-          <SkeletonPlaceholder.Item marginTop={6} width={80} height={20} />
-        </SkeletonPlaceholder.Item>
-      </SkeletonPlaceholder.Item>
-    </SkeletonPlaceholder>
+    <View style={{ flex: 1, backgroundColor: '#333' }}>
+      <SkeletonPlaceholder>
+        <SkeletonPlaceholder.Item
+          borderRadius={8}
+          height={80}
+          margin={8}
+        />
+      </SkeletonPlaceholder>
+      <SkeletonPlaceholder>
+        <SkeletonPlaceholder.Item
+          borderRadius={8}
+          height={80}
+          margin={8}
+        />
+      </SkeletonPlaceholder>
+    </View>
   );
 }
 
