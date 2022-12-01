@@ -1,7 +1,6 @@
 import React from 'react';
 import { Dimensions, Text, View } from 'react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import { LinearGradient } from 'expo-linear-gradient';
 
 const width = Dimensions.get('window').width * 0.9;
 
@@ -11,15 +10,9 @@ const ViewSkeleton = () => {
       <SkeletonPlaceholder>
         <SkeletonPlaceholder.Item
           borderRadius={8}
-          height={80}
-          margin={8}
-        />
-      </SkeletonPlaceholder>
-      <SkeletonPlaceholder>
-        <SkeletonPlaceholder.Item
-          borderRadius={8}
-          height={80}
-          margin={8}
+          height={60}
+          marginTop={8}
+          marginHorizontal={8}
         />
       </SkeletonPlaceholder>
     </View>
