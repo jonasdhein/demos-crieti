@@ -5,6 +5,10 @@ export const theme = StyleSheet.create({
         flex: 1,
         backgroundColor: '#fff'
     },
+    login: {
+        flex: 1,
+        backgroundColor: '#555'
+    },
     input: {
         borderWidth: 1,
         borderColor: '#555',
