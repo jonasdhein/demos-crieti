@@ -49,7 +49,13 @@ const ViewNewLogin = ({ navigation }) => {
 
                 //DADOS OK => navegar adiante
                 saveUser(user, pass);
-                navigation.navigate("ViewUsers");
+                //navigation.navigate("ViewUsers");
+                
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "ViewUsers" }]
+                })
+
             } else {
                 Alert.alert('Que pena 😥', json.message);
             }

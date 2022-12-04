@@ -41,13 +41,17 @@ export const theme = StyleSheet.create({
         fontSize: 32,
         fontFamily: "RobotoSlab_700Bold"
     },
+    subTitle: {
+        fontSize: 24,
+        fontFamily: "RobotoSlab_700Bold"
+    },
     shadows: {
         shadowColor: '#000',
         shadowOffset: {
-            width: 0,
-            height: 3,
+            width: 1,
+            height: 4,
         },
-        shadowOpacity: 0.2,
+        shadowOpacity: 0.3,
         shadowRadius: 2,
         elevation: 5
     }

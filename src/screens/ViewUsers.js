@@ -1,20 +1,46 @@
-import { useContext, useEffect, useState } from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity, FlatList } from 'react-native';
+import { useContext, useEffect, useState, useRef } from 'react';
+import {
+    FlatList,
+    Modal,
+    ScrollView,
+    StyleSheet,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+} from 'react-native';
 const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
 import { AntDesign } from '@expo/vector-icons';
 import { theme } from '../styles/Theme';
 import { AppContext } from '../context/AppContext';
+import { FontAwesome5 } from '@expo/vector-icons';
+import FloatingButton from '../components/FloatingButton';
+import { Modalize } from 'react-native-modalize';
+import ItemUser from '../components/ItemUser';
+import ItemSex from '../components/ItemSex';
+import CustomButton from '../components/CustomButton';
 
-export default ViewUsers = () => {
+export default ViewUsers = ({ navigation }) => {
+
+    const initialUser = {
+        id: 0,
+        age: 0,
+        email: "",
+        name: "",
+        password: "",
+        sex: ""
+    }
 
     const fieldUser = "myapp_usuario";
     const fieldPassword = "myapp_senha";
     const [loading, setLoading] = useState(false);
     const [users, setUsers] = useState([]);
+    const [user, setUser] = useState(initialUser);
 
     const { username, password } = useContext(AppContext);
-    console.log('CREDENTIALS=>', username);
+
+    const modalRef = useRef(null);
 
     /*
         Busca os usuários da API (através do listUsers)
@@ -23,6 +49,24 @@ export default ViewUsers = () => {
     useEffect(() => {
         listUsers();
     }, [])
+
+    function onOpenModal() {
+        modalRef.current?.open();
+    }
+
+    function alterUser(user) {
+        onOpenModal()
+        setUser(user)
+    }
+
+    function newUser() {
+        onOpenModal()
+        setUser(initialUser)
+    }
+
+    function saveUser() {
+        console.log('SALVAR')
+    }
 
     async function listUsers() {
 
@@ -58,51 +102,101 @@ export default ViewUsers = () => {
             </SkeletonPlaceholder> */}
             <FlatList
                 data={users}
+                onRefresh={() => listUsers()}
+                refreshing={loading}
                 keyExtractor={item => item.id}
-                renderItem={({ item }) => {
-
-                    const icone_sexo = item.sex == 'M' ? 'man' : 'woman';
-
-                    return <TouchableOpacity
-                        activeOpacity={0.6}
-                        style={[styles.card, theme.shadows]} key={item.id}>
-                        <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                            <AntDesign name={icone_sexo} size={24}
-                                color={item.sex == 'M' ? "#7986CB" : "#F06292"}
-                                style={{ marginRight: 16 }} />
-                            <View>
-                                <Text style={styles.titleCard}>{item.name}</Text>
-                                <Text style={styles.subtitleCard}>{item.email}</Text>
-                            </View>
-                        </View>
-                        <AntDesign name="right" size={24} color="black" />
-                    </TouchableOpacity>
-                }}
+                renderItem={({ item }) => (
+                    <ItemUser item={item} alterUser={() => alterUser(item)} />
+                )}
             />
+
+            <FloatingButton
+                icon="plus"
+                color="#333"
+                onPress={() => newUser()}
+            />
+
+            <Modalize
+                ref={modalRef}
+                snapPoint={320}
+                modalHeight={500}>
+                <View style={styles.modal}>
+                    <Text style={[theme.subTitle, {
+                        textAlign: 'center'
+                    }]}>{user.id > 0 ? "Alterar Usuário" : "Novo Usuário"}</Text>
+
+                    <Text style={theme.label}>Nome</Text>
+                    <TextInput
+                        keyboardType='defaults'
+                        autoCapitalize='words'
+                        value={user.name}
+                        onChangeText={(name) => { setUser({ ...user, name: name }) }}
+                        style={styles.modalInput}
+                        placeholder="Nome" />
+
+                    <Text style={theme.label}>E-mail</Text>
+                    <TextInput
+                        keyboardType='email-address'
+                        autoCapitalize='words'
+                        value={user.email}
+                        onChangeText={(email) => { setUser({ ...user, email: email }) }}
+                        style={styles.modalInput}
+                        placeholder="E-mail" />
+
+                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                        <View style={{ flex: 1 }}>
+                            <Text style={theme.label}>Idade</Text>
+                            <TextInput
+                                keyboardType='number-pad'
+                                value={user.age.toString()}
+                                onChangeText={(age) => { setUser({ ...user, age: age }) }}
+                                style={[styles.modalInput, { width: '40%' }]}
+                                placeholder="Idade" />
+                        </View>
+
+                        <View style={{ flex: 1 }}>
+                            <Text style={theme.label}>Tipo</Text>
+                            <ScrollView horizontal={true}>
+                                <ItemSex
+                                    setUser={setUser}
+                                    user={user}
+                                    icon="female"
+                                    sex="F" />
+                                <ItemSex
+                                    setUser={setUser}
+                                    user={user}
+                                    icon="male"
+                                    sex="M" />
+                            </ScrollView>
+                        </View>
+                    </View>
+
+                    <CustomButton
+                        label="Salvar"
+                        onPress={saveUser}
+                        textColor="#fff"
+                        width="100%"
+                        backgroundColor="#9400d3" />
+                </View>
+            </Modalize>
 
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    card: {
-        margin: 10,
-        borderRadius: 16,
-        padding: 8,
-        height: 55,
-        backgroundColor: '#f1f1f1',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between'
+    modal: {
+        flex: 1,
+        padding: 12,
     },
-    titleCard: {
-        color: '#000',
-        fontSize: 16,
-        fontFamily: "RobotoSlab_700Bold",
+    modalInput: {
+        borderWidth: 1,
+        borderColor: '#555',
+        height: 42,
+        borderRadius: 8,
+        width: '100%',
+        marginBottom: 16,
+        paddingLeft: 8,
+        fontFamily: "RobotoSlab_400Regular"
     },
-    subtitleCard: {
-        color: '#555',
-        fontSize: 13,
-        fontFamily: "RobotoSlab_300Light",
-    }
 });
