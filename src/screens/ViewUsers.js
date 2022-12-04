@@ -1,7 +1,10 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import {
+    Dimensions,
     FlatList,
+    KeyboardAvoidingView,
     Modal,
+    Platform,
     ScrollView,
     StyleSheet,
     Text,
@@ -20,6 +23,8 @@ import { Modalize } from 'react-native-modalize';
 import ItemUser from '../components/ItemUser';
 import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
+
+const { width, height } = Dimensions.get('window');
 
 export default ViewUsers = ({ navigation }) => {
 
@@ -116,69 +121,75 @@ export default ViewUsers = ({ navigation }) => {
                 onPress={() => newUser()}
             />
 
+
             <Modalize
                 ref={modalRef}
-                snapPoint={320}
-                modalHeight={500}>
-                <View style={styles.modal}>
-                    <Text style={[theme.subTitle, {
-                        textAlign: 'center'
-                    }]}>{user.id > 0 ? "Alterar Usuário" : "Novo Usuário"}</Text>
+                snapPoint={400}
+                modalHeight={height * 0.8}>
+                <KeyboardAvoidingView
+                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                    style={{ flex: 1 }}>
+                    <View style={styles.modal}>
+                        <Text style={[theme.subTitle, {
+                            textAlign: 'center'
+                        }]}>{user.id > 0 ? "Alterar Usuário" : "Novo Usuário"}</Text>
 
-                    <Text style={theme.label}>Nome</Text>
-                    <TextInput
-                        keyboardType='defaults'
-                        autoCapitalize='words'
-                        value={user.name}
-                        onChangeText={(name) => { setUser({ ...user, name: name }) }}
-                        style={styles.modalInput}
-                        placeholder="Nome" />
+                        <Text style={theme.label}>Nome</Text>
+                        <TextInput
+                            keyboardType='defaults'
+                            autoCapitalize='words'
+                            value={user.name}
+                            onChangeText={(name) => { setUser({ ...user, name: name }) }}
+                            style={styles.modalInput}
+                            placeholder="Nome" />
 
-                    <Text style={theme.label}>E-mail</Text>
-                    <TextInput
-                        keyboardType='email-address'
-                        autoCapitalize='words'
-                        value={user.email}
-                        onChangeText={(email) => { setUser({ ...user, email: email }) }}
-                        style={styles.modalInput}
-                        placeholder="E-mail" />
+                        <Text style={theme.label}>E-mail</Text>
+                        <TextInput
+                            keyboardType='email-address'
+                            autoCapitalize='words'
+                            value={user.email}
+                            onChangeText={(email) => { setUser({ ...user, email: email }) }}
+                            style={styles.modalInput}
+                            placeholder="E-mail" />
 
-                    <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                        <View style={{ flex: 1 }}>
-                            <Text style={theme.label}>Idade</Text>
-                            <TextInput
-                                keyboardType='number-pad'
-                                value={user.age.toString()}
-                                onChangeText={(age) => { setUser({ ...user, age: age }) }}
-                                style={[styles.modalInput, { width: '40%' }]}
-                                placeholder="Idade" />
+                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ flex: 1 }}>
+                                <Text style={theme.label}>Idade</Text>
+                                <TextInput
+                                    keyboardType='number-pad'
+                                    value={user.age.toString()}
+                                    onChangeText={(age) => { setUser({ ...user, age: age }) }}
+                                    style={[styles.modalInput, { width: '40%' }]}
+                                    placeholder="Idade" />
+                            </View>
+
+                            <View style={{ flex: 1 }}>
+                                <Text style={theme.label}>Sexo</Text>
+                                <ScrollView horizontal={true}>
+                                    <ItemSex
+                                        setUser={setUser}
+                                        user={user}
+                                        icon="female"
+                                        sex="F" />
+                                    <ItemSex
+                                        setUser={setUser}
+                                        user={user}
+                                        icon="male"
+                                        sex="M" />
+                                </ScrollView>
+                            </View>
                         </View>
 
-                        <View style={{ flex: 1 }}>
-                            <Text style={theme.label}>Tipo</Text>
-                            <ScrollView horizontal={true}>
-                                <ItemSex
-                                    setUser={setUser}
-                                    user={user}
-                                    icon="female"
-                                    sex="F" />
-                                <ItemSex
-                                    setUser={setUser}
-                                    user={user}
-                                    icon="male"
-                                    sex="M" />
-                            </ScrollView>
-                        </View>
+                        <CustomButton
+                            label="Salvar"
+                            onPress={(saveUser)}
+                            textColor="#fff"
+                            width="100%"
+                            backgroundColor="#9400d3" />
                     </View>
-
-                    <CustomButton
-                        label="Salvar"
-                        onPress={saveUser}
-                        textColor="#fff"
-                        width="100%"
-                        backgroundColor="#9400d3" />
-                </View>
+                </KeyboardAvoidingView>
             </Modalize>
+
 
         </View>
     );

@@ -15,7 +15,7 @@ const ViewNewLogin = ({ navigation }) => {
     const fieldUser = "myapp_usuario";
     const fieldPassword = "myapp_senha";
     const [loading, setLoading] = useState(false);
-    
+
     const { username, password, saveUser } = useContext(AppContext);
     console.log('VARS=>', username, password);
 
@@ -71,14 +71,17 @@ const ViewNewLogin = ({ navigation }) => {
             style={[theme.login, styles.container]}>
             {loading == true ? <ActivityIndicator size='large' color='#fff' />
                 :
-                <LoginScreen
-                    style={[theme.login, { marginTop: 8 }]}
-                    logoImageSource={require("../assets/logo.png")}
-                    onLoginPress={() => login(usuario.username, usuario.password)}
-                    onSignupPress={() => { }}
-                    onEmailChange={(user) => { usuario.username = user }}
-                    onPasswordChange={(password) => { usuario.password = password }}>
-                </LoginScreen>
+                <ScrollView showsVerticalScrollIndicator={false}>
+                    <LoginScreen
+                        style={[theme.login, { marginTop: 8 }]}
+                        logoImageSource={require("../assets/logo.png")}
+                        onLoginPress={() => login(usuario.username, usuario.password)}
+                        onSignupPress={() => { }}
+                        onEmailChange={(user) => { usuario.username = user }}
+                        textInputProps={{ keyboardType: "email-address" }} //vai definir para o input da senha também
+                        onPasswordChange={(password) => { usuario.password = password }}>
+                    </LoginScreen>
+                </ScrollView>
             }
         </KeyboardAvoidingView>
     );
