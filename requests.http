@@ -1,8 +1,33 @@
 //lista de tarefas
 GET http://177.44.248.30:3333/users
 Authorization: Basic bWF0ZXVzQG1hdGV1cy5jb206MTIzNDU= 
-###
-
-POST http://177.44.248.30:3333/auth
 
 ###
+GET http://177.44.248.30:3333/auth
+Authorization: Basic bWF0ZXVzQG1hdGV1cy5jb206MTIzNDU=
+
+###
+POST http://177.44.248.30:3333/users
+Authorization: Basic bWF0ZXVzQG1hdGV1cy5jb206MTIzNDU=
+content-type: Application/json
+
+{
+    "name": "Jonas",
+    "age": 33,
+    "sex": "M",
+    "email": "jdhein@univates.br",
+    "password": "teste"
+}
+
+###
+PUT http://177.44.248.30:3333/users/19
+Authorization: Basic bWF0ZXVzQG1hdGV1cy5jb206MTIzNDU=
+content-type: Application/json
+
+{
+    "name": "Jonas Dhein",
+    "age": 33,
+    "sex": "M",
+    "email": "jdhein@univates.br",
+    "password": "teste"
+}
