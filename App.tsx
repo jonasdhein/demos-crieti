@@ -11,7 +11,9 @@ import ViewUsers from "./src/screens/ViewUsers";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicator } from "react-native";
+import { ActivityIndicator, SafeAreaView } from "react-native";
+
+import { AveriaLibre_300Light, AveriaLibre_400Regular, AveriaLibre_700Bold } from '@expo-google-fonts/averia-libre'
 
 import {
   RobotoSlab_300Light,
@@ -34,7 +36,10 @@ export default function App() {
     RobotoSlab_300Light,
     RobotoSlab_400Regular,
     RobotoSlab_700Bold,
-    RobotoSlab_900Black
+    RobotoSlab_900Black,
+    AveriaLibre_300Light,
+    AveriaLibre_400Regular,
+    AveriaLibre_700Bold
   }); // 2
 
   if (fontsLoaded) { //3
@@ -44,7 +49,7 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="ViewNewLogin"
-              screenOptions={{ headerShown: true }} >
+              screenOptions={{ headerShown: false }} >
               <Stack.Screen name="ViewNav1" component={ViewNav1} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />

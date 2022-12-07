@@ -5,6 +5,7 @@ import {
     KeyboardAvoidingView,
     Modal,
     Platform,
+    SafeAreaView,
     ScrollView,
     StyleSheet,
     Text,
@@ -98,100 +99,102 @@ export default ViewUsers = ({ navigation }) => {
     }
 
     return (
-        <View style={theme.container}>
-            {/* <SkeletonPlaceholder
+        <SafeAreaView style={theme.safeArea}>
+            <View style={theme.container}>
+                {/* <SkeletonPlaceholder
                 speed={600}>
                 <SkeletonPlaceholder.Item
                     width={200}
                     height={45} />
             </SkeletonPlaceholder> */}
-            <FlatList
-                data={users}
-                onRefresh={() => listUsers()}
-                refreshing={loading}
-                keyExtractor={item => item.id}
-                renderItem={({ item }) => (
-                    <ItemUser item={item} alterUser={() => alterUser(item)} />
-                )}
-            />
+                <FlatList
+                    data={users}
+                    onRefresh={() => listUsers()}
+                    refreshing={loading}
+                    keyExtractor={item => item.id}
+                    renderItem={({ item }) => (
+                        <ItemUser item={item} alterUser={() => alterUser(item)} />
+                    )}
+                />
 
-            <FloatingButton
-                icon="plus"
-                color="#333"
-                onPress={() => newUser()}
-            />
+                <FloatingButton
+                    icon="plus"
+                    color="#333"
+                    onPress={() => newUser()}
+                />
 
 
-            <Modalize
-                ref={modalRef}
-                snapPoint={400}
-                modalHeight={height * 0.8}>
-                <KeyboardAvoidingView
-                    behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-                    style={{ flex: 1 }}>
-                    <View style={styles.modal}>
-                        <Text style={[theme.subTitle, {
-                            textAlign: 'center'
-                        }]}>{user.id > 0 ? "Alterar Usuário" : "Novo Usuário"}</Text>
+                <Modalize
+                    ref={modalRef}
+                    snapPoint={400}
+                    modalHeight={height * 0.8}>
+                    <KeyboardAvoidingView
+                        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                        style={{ flex: 1 }}>
+                        <View style={styles.modal}>
+                            <Text style={[theme.subTitle, {
+                                textAlign: 'center'
+                            }]}>{user.id > 0 ? "Alterar Usuário" : "Novo Usuário"}</Text>
 
-                        <Text style={theme.label}>Nome</Text>
-                        <TextInput
-                            keyboardType='defaults'
-                            autoCapitalize='words'
-                            value={user.name}
-                            onChangeText={(name) => { setUser({ ...user, name: name }) }}
-                            style={styles.modalInput}
-                            placeholder="Nome" />
+                            <Text style={theme.label}>Nome</Text>
+                            <TextInput
+                                keyboardType='defaults'
+                                autoCapitalize='words'
+                                value={user.name}
+                                onChangeText={(name) => { setUser({ ...user, name: name }) }}
+                                style={styles.modalInput}
+                                placeholder="Nome" />
 
-                        <Text style={theme.label}>E-mail</Text>
-                        <TextInput
-                            keyboardType='email-address'
-                            autoCapitalize='words'
-                            value={user.email}
-                            onChangeText={(email) => { setUser({ ...user, email: email }) }}
-                            style={styles.modalInput}
-                            placeholder="E-mail" />
+                            <Text style={theme.label}>E-mail</Text>
+                            <TextInput
+                                keyboardType='email-address'
+                                autoCapitalize='words'
+                                value={user.email}
+                                onChangeText={(email) => { setUser({ ...user, email: email }) }}
+                                style={styles.modalInput}
+                                placeholder="E-mail" />
 
-                        <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ flex: 1 }}>
-                                <Text style={theme.label}>Idade</Text>
-                                <TextInput
-                                    keyboardType='number-pad'
-                                    value={user.age.toString()}
-                                    onChangeText={(age) => { setUser({ ...user, age: age }) }}
-                                    style={[styles.modalInput, { width: '40%' }]}
-                                    placeholder="Idade" />
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+                                <View style={{ flex: 1 }}>
+                                    <Text style={theme.label}>Idade</Text>
+                                    <TextInput
+                                        keyboardType='number-pad'
+                                        value={user.age.toString()}
+                                        onChangeText={(age) => { setUser({ ...user, age: age }) }}
+                                        style={[styles.modalInput, { width: '40%' }]}
+                                        placeholder="Idade" />
+                                </View>
+
+                                <View style={{ flex: 1 }}>
+                                    <Text style={theme.label}>Sexo</Text>
+                                    <ScrollView horizontal={true}>
+                                        <ItemSex
+                                            setUser={setUser}
+                                            user={user}
+                                            icon="female"
+                                            sex="F" />
+                                        <ItemSex
+                                            setUser={setUser}
+                                            user={user}
+                                            icon="male"
+                                            sex="M" />
+                                    </ScrollView>
+                                </View>
                             </View>
 
-                            <View style={{ flex: 1 }}>
-                                <Text style={theme.label}>Sexo</Text>
-                                <ScrollView horizontal={true}>
-                                    <ItemSex
-                                        setUser={setUser}
-                                        user={user}
-                                        icon="female"
-                                        sex="F" />
-                                    <ItemSex
-                                        setUser={setUser}
-                                        user={user}
-                                        icon="male"
-                                        sex="M" />
-                                </ScrollView>
-                            </View>
+                            <CustomButton
+                                label="Salvar"
+                                onPress={(saveUser)}
+                                textColor="#fff"
+                                width="100%"
+                                backgroundColor="#9400d3" />
                         </View>
-
-                        <CustomButton
-                            label="Salvar"
-                            onPress={(saveUser)}
-                            textColor="#fff"
-                            width="100%"
-                            backgroundColor="#9400d3" />
-                    </View>
-                </KeyboardAvoidingView>
-            </Modalize>
+                    </KeyboardAvoidingView>
+                </Modalize>
 
 
-        </View>
+            </View>
+        </SafeAreaView>
     );
 }
 

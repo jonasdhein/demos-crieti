@@ -44,6 +44,8 @@ const ViewNewLogin = ({ navigation }) => {
             });
             const json = await response.json();
 
+            console.log('JSON', json)
+
             setLoading(false);
             if (json.id) {
 
@@ -53,7 +55,7 @@ const ViewNewLogin = ({ navigation }) => {
                 
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: "ViewUsers" }]
+                    routes: [{ name: "ViewNav1" }]
                 })
 
             } else {
