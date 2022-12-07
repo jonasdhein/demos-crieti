@@ -88,22 +88,21 @@ export default ViewUsers = ({ navigation }) => {
                 sex: user.sex
             }
 
-            const response = null
-            if (user.id > 0) {
+            /*if (user.id > 0) {
                 //alteraração
                  response = await axios.put(`/users/${user.id}`, payload);
             } else {
                 //inclusão
                  response = await axios.post(`/users`, payload);               
-            }
+            }*/
 
-            /*response = await axios({
+            const response = await axios({
                 method: user.id > 0 ? 'put' : 'post',
                 url: user.id > 0 ? `/users/${user.id}` : `/users`,
                 data: payload
-            })*/
+            })
 
-            if (response && response.status == 200) {
+            if (response.status == 200) {
 
                 modalRef.current?.close();
 
