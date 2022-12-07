@@ -67,7 +67,6 @@ const ViewNewLogin = ({ navigation }) => {
             } finally { //sempre vai executar, mesmo se cair no catch
                 setLoading(false);
             }
-
         }
 
         testLogin();

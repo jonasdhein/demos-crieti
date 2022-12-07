@@ -124,14 +124,30 @@ export default ViewUsers = ({ navigation }) => {
 
         const response = await axios.get('/users');
 
-        const json = response.data;
+        /*const response = await fetch('http://177.44.248.30:3333/users', {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic ' +
+                    base64.encode(username + ":" + password)
+            }
+        });
+        const json = await response.json();*/
 
-        setLoading(false);
-        if (json) {
+        /*const options = {
+            headers: {
+                'Authorization': 'Basic ' +
+                    base64.encode(username + ":" + password)
+            }
+        }*/
+
+        if(response.status == 200){
+            const json = response.data;
             setUsers(json);
-        } else {
+        }else{
             Alert.alert('Ops, deu ruim 😥', json.message);
         }
+
+        setLoading(false);
 
     }
 
