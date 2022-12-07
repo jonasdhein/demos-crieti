@@ -7,6 +7,7 @@ const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
 import { AppContext } from '../context/AppContext';
 import LoginScreen from "react-native-login-screen";
+import axios from 'axios';
 
 // import { Container } from './styles';
 
@@ -35,32 +36,36 @@ const ViewNewLogin = ({ navigation }) => {
         setLoading(true);
 
         async function testLogin() {
-            const response = await fetch('http://177.44.248.30:3333/auth', {
+
+            /*const response = await fetch('http://177.44.248.30:3333/auth', {
                 method: 'POST',
                 headers: {
                     'Authorization': 'Basic ' +
                         base64.encode(user + ":" + pass)
                 }
             });
-            const json = await response.json();
+            const json = await response.json();*/
 
-            console.log('JSON', json)
+            const response = await axios.get('http://177.44.248.30:3333/auth', {
+                headers: {
+                    'Authorization': 'Basic ' +
+                        base64.encode(user + ":" + pass)
+                }
+            });
 
-            setLoading(false);
-            if (json.id) {
+            if (response.status == 200) {
 
-                //DADOS OK => navegar adiante
-                saveUser(user, pass);
-                //navigation.navigate("ViewUsers");
+                const json = response.data;
+
+                console.log('JSON', json)
+
                 
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: "ViewNav1" }]
-                })
 
-            } else {
-                Alert.alert('Que pena 😥', json.message);
+            } else if (response.status == 400) {
+
             }
+
+
         }
 
         testLogin();
