@@ -24,6 +24,7 @@ import { Modalize } from 'react-native-modalize';
 import ItemUser from '../components/ItemUser';
 import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
@@ -80,21 +81,32 @@ export default ViewUsers = ({ navigation }) => {
 
         //console.log('CREDENTIALS=>', _username, _password);
 
-        const response = await fetch('http://177.44.248.30:3333/users', {
+        /*const response = await fetch('http://177.44.248.30:3333/users', {
             method: 'GET',
             headers: {
                 'Authorization': 'Basic ' +
                     base64.encode(username + ":" + password)
             }
         });
-        const json = await response.json();
+        const json = await response.json();*/
 
-        setLoading(false);
-        if (json) {
+        const options = {
+            headers: {
+                'Authorization': 'Basic ' +
+                    base64.encode(username + ":" + password)
+            }
+        }
+
+        const response = await axios.get('http://177.44.248.30:3333/users', options)
+
+        if(response.status == 200){
+            const json = response.data;
             setUsers(json);
-        } else {
+        }else{
             Alert.alert('Ops, deu ruim 😥', json.message);
         }
+
+        setLoading(false);
 
     }
 

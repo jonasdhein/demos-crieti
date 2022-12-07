@@ -57,14 +57,23 @@ const ViewNewLogin = ({ navigation }) => {
 
                 const json = response.data;
 
-                console.log('JSON', json)
+                console.log('JSON', json);
 
-                
+                saveUser(user, pass);
+
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "ViewNav1" }]
+                })
+
 
             } else if (response.status == 400) {
-
+                Alert.alert('Que pena 😥', json.message);
+            } else if (response.status == 401) {
+                Alert.alert('Que pena 😥', json.error);
             }
 
+            setLoading(false);
 
         }
 
