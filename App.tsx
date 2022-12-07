@@ -25,10 +25,16 @@ import { useFonts } from 'expo-font'; //1
 import { AppProvider } from "./src/context/AppContext";
 import ViewSkeleton from "./src/screens/ViewSkeleton";
 import ViewNewLogin from "./src/screens/ViewNewLogin";
+import axios from 'axios';
+import config from './src/config/config';
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
+
+  //faz com que não seja mais necessário importar o arquivo de config
+  //em todas as telas que formos utilizar o axios
+  axios.defaults.baseURL = config.baseURL;
 
   const [fontsLoaded] = useFonts({
     'Inter-Black': require('./src/assets/fonts/Inter-Black.ttf'),
@@ -49,7 +55,7 @@ export default function App() {
           <NavigationContainer>
             <Stack.Navigator
               initialRouteName="ViewNewLogin"
-              screenOptions={{ headerShown: false }} >
+              screenOptions={{ headerShown: true }} >
               <Stack.Screen name="ViewNav1" component={ViewNav1} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />

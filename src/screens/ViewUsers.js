@@ -1,5 +1,6 @@
 import { useContext, useEffect, useState, useRef } from 'react';
 import {
+    Alert,
     Dimensions,
     FlatList,
     KeyboardAvoidingView,
@@ -24,6 +25,7 @@ import { Modalize } from 'react-native-modalize';
 import ItemUser from '../components/ItemUser';
 import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
+import axios from 'axios';
 
 const { width, height } = Dimensions.get('window');
 
@@ -70,24 +72,59 @@ export default ViewUsers = ({ navigation }) => {
         setUser(initialUser)
     }
 
-    function saveUser() {
-        console.log('SALVAR')
+    async function saveUser() {
+        try {
+
+            if(user.age <= 0){
+                Alert.alert('Informe a idade');
+                return;
+            }
+
+            const payload = {
+                age: user.age,
+                email: user.email,
+                name: user.name,
+                password: user.password,
+                sex: user.sex
+            }
+
+            const response = null
+            if (user.id > 0) {
+                //alteraração
+                 response = await axios.put(`/users/${user.id}`, payload);
+            } else {
+                //inclusão
+                 response = await axios.post(`/users`, payload);               
+            }
+
+            /*response = await axios({
+                method: user.id > 0 ? 'put' : 'post',
+                url: user.id > 0 ? `/users/${user.id}` : `/users`,
+                data: payload
+            })*/
+
+            if (response && response.status == 200) {
+
+                modalRef.current?.close();
+
+                listUsers();
+
+            } else {
+                Alert.alert('Ops', 'Erro ao salvar usuário');
+            }
+
+        } catch (error) {
+            Alert.alert('Ops', error.message);
+        }
     }
 
     async function listUsers() {
 
         setLoading(true);
 
-        //console.log('CREDENTIALS=>', _username, _password);
+        const response = await axios.get('/users');
 
-        const response = await fetch('http://177.44.248.30:3333/users', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Basic ' +
-                    base64.encode(username + ":" + password)
-            }
-        });
-        const json = await response.json();
+        const json = response.data;
 
         setLoading(false);
         if (json) {

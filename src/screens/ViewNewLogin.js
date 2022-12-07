@@ -7,6 +7,7 @@ const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
 import { AppContext } from '../context/AppContext';
 import LoginScreen from "react-native-login-screen";
+import axios from 'axios';
 
 // import { Container } from './styles';
 
@@ -35,32 +36,38 @@ const ViewNewLogin = ({ navigation }) => {
         setLoading(true);
 
         async function testLogin() {
-            const response = await fetch('http://177.44.248.30:3333/auth', {
-                method: 'POST',
-                headers: {
-                    'Authorization': 'Basic ' +
-                        base64.encode(user + ":" + pass)
+            try {
+
+                const AUTH_TOKEN = 'Basic ' +
+                    base64.encode(user + ":" + pass);
+
+                const response = await axios.get('/auth', {
+                    headers: {
+                        'Authorization': AUTH_TOKEN
+                    }
+                });
+
+                if (response.status == 200) {
+
+                    axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+                    saveUser(user, pass);
+
+                    navigation.reset({
+                        index: 0,
+                        routes: [{ name: "ViewNav1" }]
+                    })
+                } else if (response.status == 400) {
+                    Alert.alert('Que pena 😥', json.message);
+                } else if (response.status == 401) {
+                    Alert.alert('Que pena 😥', json.error);
                 }
-            });
-            const json = await response.json();
 
-            console.log('JSON', json)
-
-            setLoading(false);
-            if (json.id) {
-
-                //DADOS OK => navegar adiante
-                saveUser(user, pass);
-                //navigation.navigate("ViewUsers");
-                
-                navigation.reset({
-                    index: 0,
-                    routes: [{ name: "ViewNav1" }]
-                })
-
-            } else {
-                Alert.alert('Que pena 😥', json.message);
+            } catch (error) {
+                Alert.alert('Que pena 😥', error.message);
+            } finally { //sempre vai executar, mesmo se cair no catch
+                setLoading(false);
             }
+
         }
 
         testLogin();
