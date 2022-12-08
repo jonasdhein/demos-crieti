@@ -28,6 +28,7 @@ import ViewSkeleton from "./src/screens/ViewSkeleton";
 import ViewNewLogin from "./src/screens/ViewNewLogin";
 import axios from 'axios';
 import config from './src/config/config';
+import ViewQuizResults from "./src/screens/ViewQuizResults";
 
 const Stack = createNativeStackNavigator();
 
@@ -68,6 +69,7 @@ export default function App() {
               <Stack.Screen name="ViewPicker" component={ViewPicker} />
               <Stack.Screen name="ViewTasks" component={ViewTasks} />
               <Stack.Screen name="ViewQuiz" component={ViewQuiz} />
+              <Stack.Screen name="ViewQuizResults" component={ViewQuizResults} />
             </Stack.Navigator>
           </NavigationContainer>
 

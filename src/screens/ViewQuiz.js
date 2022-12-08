@@ -6,7 +6,7 @@ import LottieView from 'lottie-react-native';
 
 const { width, height } = Dimensions.get('window');
 
-const ViewQuiz = () => {
+const ViewQuiz = ({ navigation }) => {
 
     const [count, setCount] = useState(0);
     const [success, setSuccess] = useState(false);
@@ -33,10 +33,23 @@ const ViewQuiz = () => {
         if (perguntas[count].altCorreta == alternativa) {
             setSuccess(true);
         } else {
-            
+
         }
-        
+
         //setCount(count + 1);
+    }
+
+    const finalizarQuiz = () => {
+        try{
+
+            navigation.navigate("ViewQuizResults", {
+                erros: "1",
+                acertos: "95"
+            });
+
+        }catch(error){
+
+        }
     }
 
     return (
@@ -87,8 +100,12 @@ const ViewQuiz = () => {
                     <LottieView
                         autoPlay
                         onAnimationFinish={() => {
-                            setCount(count+1);
-                            setSuccess(false);
+                            if (count + 1 < perguntas.length) {
+                                setCount(count + 1);
+                                setSuccess(false);
+                            }else{
+                                finalizarQuiz();
+                            }
                         }}
                         loop={false}
                         style={{

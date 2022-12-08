@@ -24,7 +24,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.jonasdhein.crieti"
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -44,6 +45,11 @@
         "wasm",
         "svg"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee270a38-87fa-453d-a288-569f3d5eea7f"
+      }
     }
   }
 }
