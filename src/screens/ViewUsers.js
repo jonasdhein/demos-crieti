@@ -26,10 +26,13 @@ import ItemUser from '../components/ItemUser';
 import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
 import axios from 'axios';
+import { getUsers } from '../api/Api';
 
 const { width, height } = Dimensions.get('window');
 
-export default ViewUsers = ({ navigation }) => {
+export default ViewUsers = ({navigation, route}) => {
+
+    console.log('PROPS PARAMS=>', route.params);
 
     const initialUser = {
         id: 0,
@@ -70,6 +73,35 @@ export default ViewUsers = ({ navigation }) => {
     function newUser() {
         onOpenModal()
         setUser(initialUser)
+    }
+
+    async function deleteUser(id){
+        try{
+
+            Alert.alert("Confirma?", "Excluir usuário", [
+                {
+                    onPress: async () => { 
+                        
+                        const response = await axios.delete(`/users/${id}`);
+
+                        if(response.status === 200){
+                            Alert.alert('Usuário excluído com sucesso')
+                        }
+
+                        listUsers();
+
+                    },
+                    text: "Sim"
+                },
+                {
+                    onPress: () => { console.log('NÃO')},
+                    text: "Não"
+                }
+            ])
+
+        }catch(error){
+            Alert.alert('Erro ao excluir');
+        }
     }
 
     async function saveUser() {
@@ -121,29 +153,12 @@ export default ViewUsers = ({ navigation }) => {
 
         setLoading(true);
 
-        const response = await axios.get('/users');
+        const response = await getUsers();
 
-        /*const response = await fetch('http://177.44.248.30:3333/users', {
-            method: 'GET',
-            headers: {
-                'Authorization': 'Basic ' +
-                    base64.encode(username + ":" + password)
-            }
-        });
-        const json = await response.json();*/
-
-        /*const options = {
-            headers: {
-                'Authorization': 'Basic ' +
-                    base64.encode(username + ":" + password)
-            }
-        }*/
-
-        if(response.status == 200){
-            const json = response.data;
-            setUsers(json);
+        if(response != null){
+            setUsers(response);
         }else{
-            Alert.alert('Ops, deu ruim 😥', json.message);
+            Alert.alert('Ops, deu ruim 😥', 'Erro ao listar usuários');
         }
 
         setLoading(false);
@@ -165,7 +180,10 @@ export default ViewUsers = ({ navigation }) => {
                     refreshing={loading}
                     keyExtractor={item => item.id}
                     renderItem={({ item }) => (
-                        <ItemUser item={item} alterUser={() => alterUser(item)} />
+                        <ItemUser 
+                        item={item}
+                        deleteUser={() => deleteUser(item.id)}
+                        alterUser={() => alterUser(item)} />
                     )}
                 />
 

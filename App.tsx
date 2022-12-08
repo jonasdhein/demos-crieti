@@ -8,6 +8,7 @@ import ViewNav1 from "./src/screens/ViewNav1";
 import ViewTasks from "./src/screens/ViewTasks";
 import ViewLogin from "./src/screens/ViewLogin";
 import ViewUsers from "./src/screens/ViewUsers";
+import ViewQuiz from "./src/screens/ViewQuiz";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -54,8 +55,8 @@ export default function App() {
         <>
           <NavigationContainer>
             <Stack.Navigator
-              initialRouteName="ViewNewLogin"
-              screenOptions={{ headerShown: true }} >
+              initialRouteName="ViewLogin"
+              screenOptions={{ headerShown: false }} >
               <Stack.Screen name="ViewNav1" component={ViewNav1} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />
@@ -66,6 +67,7 @@ export default function App() {
               <Stack.Screen name="ViewImages" component={ViewImages} />
               <Stack.Screen name="ViewPicker" component={ViewPicker} />
               <Stack.Screen name="ViewTasks" component={ViewTasks} />
+              <Stack.Screen name="ViewQuiz" component={ViewQuiz} />
             </Stack.Navigator>
           </NavigationContainer>
 

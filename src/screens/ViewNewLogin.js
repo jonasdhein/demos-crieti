@@ -47,23 +47,16 @@ const ViewNewLogin = ({ navigation }) => {
                     }
                 });
 
-                if (response.status == 200) {
+                axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+                saveUser(user, pass);
 
-                    axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-                    saveUser(user, pass);
-
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: "ViewNav1" }]
-                    })
-                } else if (response.status == 400) {
-                    Alert.alert('Que pena 😥', json.message);
-                } else if (response.status == 401) {
-                    Alert.alert('Que pena 😥', json.error);
-                }
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "ViewNav1" }]
+                })
 
             } catch (error) {
-                Alert.alert('Que pena 😥', error.message);
+                Alert.alert('ERRRRROU 😥', error.message);
             } finally { //sempre vai executar, mesmo se cair no catch
                 setLoading(false);
             }

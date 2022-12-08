@@ -5,10 +5,11 @@ import { theme } from '../styles/Theme';
 
 // import { Container } from './styles';
 
-const ItemUser = ({ item, alterUser }) => {
+const ItemUser = ({ item, alterUser, deleteUser }) => {
     return (
         <TouchableOpacity
             onPress={alterUser}
+            onLongPress={deleteUser}
             activeOpacity={0.6}
             style={[styles.card, theme.shadows]} key={item.id}>
             <View style={{ flexDirection: 'row', alignItems: 'center' }}>

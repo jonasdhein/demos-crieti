@@ -1,9 +1,11 @@
-import { StyleSheet } from 'react-native';
+import { Dimensions, StyleSheet } from 'react-native';
+
+const { width, height } = Dimensions.get('window');
 
 export const theme = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     },
     safeArea: {
         flex: 1,
@@ -37,6 +39,9 @@ export const theme = StyleSheet.create({
         fontFamily: "AveriaLibre_700Bold",
         textAlign: 'center',
     },
+    titleBoldAveriaLibre: {
+        fontFamily: "AveriaLibre_700Bold",
+    },
     label: {
         fontSize: 16,
         fontFamily: "AveriaLibre_400Regular"
@@ -48,6 +53,14 @@ export const theme = StyleSheet.create({
     subTitle: {
         fontSize: 20,
         fontFamily: "AveriaLibre_400Regular"
+    },
+    card: {
+        width: width * 0.9,
+        height: 100,
+        borderRadius: 8,
+        padding: 8,
+        margin: 8,
+        backgroundColor: '#f1f1f1'
     },
     shadows: {
         shadowColor: '#000',

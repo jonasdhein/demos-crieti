@@ -16,11 +16,14 @@ const ViewNav1 = (props) => {
 
         <TouchableOpacity
           style={[styles.card, theme.shadows]}
-          onPress={() => props.navigation.navigate("ViewUsers")}>
+          onPress={() => props.navigation.navigate("ViewUsers", {
+            parametro1: "PARAM1",
+            parametro2: "PARAM2",
+          })}>
           <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', alignItems: 'center' }}>
             <LottieView
               autoPlay
-              loop={true}
+              loop={false}
               style={{
                 width: 80,
                 height: 80,
@@ -28,6 +31,23 @@ const ViewNav1 = (props) => {
               source={require('../assets/animations/cadastro.json')}
             />
             <Text style={theme.subTitle}>Lista de Usuários</Text>
+          </View>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={[styles.card, theme.shadows]}
+          onPress={() => props.navigation.navigate("ViewQuiz")}>
+          <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
+            <LottieView
+              autoPlay
+              loop={false}
+              style={{
+                width: 80,
+                height: 80,
+              }}
+              source={require('../assets/animations/learning.json')}
+            />
+            <Text style={theme.subTitle}>Quiz</Text>
           </View>
         </TouchableOpacity>
 
@@ -68,6 +88,7 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 8,
     padding: 8,
+    marginTop: 16,
     backgroundColor: '#f1f1f1'
   }
 });
