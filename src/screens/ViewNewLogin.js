@@ -8,10 +8,15 @@ import * as SecureStore from 'expo-secure-store';
 import { AppContext } from '../context/AppContext';
 import LoginScreen from "react-native-login-screen";
 import axios from 'axios';
+import config from '../config/config';
 
 // import { Container } from './styles';
 
 const ViewNewLogin = ({ navigation }) => {
+
+    //faz com que não seja mais necessário importar o arquivo de config
+    //em todas as telas que formos utilizar o axios
+    axios.defaults.baseURL = config.baseURLFran;
 
     const fieldUser = "myapp_usuario";
     const fieldPassword = "myapp_senha";
@@ -76,6 +81,7 @@ const ViewNewLogin = ({ navigation }) => {
                     <LoginScreen
                         style={[theme.login, { marginTop: 8 }]}
                         logoImageSource={require("../assets/logo.png")}
+                        disableSocialButtons={true}
                         onLoginPress={() => login(usuario.username, usuario.password)}
                         onSignupPress={() => { }}
                         onEmailChange={(user) => { usuario.username = user }}

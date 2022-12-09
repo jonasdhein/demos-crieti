@@ -10,8 +10,13 @@ import * as LocalAuthentication from 'expo-local-authentication';
 import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
+import config from '../config/config';
 
 const ViewLogin = ({ navigation }) => {
+
+    //faz com que não seja mais necessário importar o arquivo de config
+    //em todas as telas que formos utilizar o axios
+    axios.defaults.baseURL = config.baseURL;
 
     const fieldUser = "myapp_usuario";
     const fieldPassword = "myapp_senha";

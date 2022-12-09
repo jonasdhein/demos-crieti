@@ -26,15 +26,28 @@ const ViewNav1 = (props) => {
 
           <TouchableOpacity
             style={[styles.card, theme.shadows]}
-            onPress={() => props.navigation.navigate("ViewUsers", {
+            onPress={() => props.navigation.navigate("ViewUsers", 
+            {
               parametro1: "PARAM1",
               parametro2: "PARAM2",
-            })}>
+            }
+            )}>
             <View style={styles.cardItem}>
               <MaterialIcons name="supervised-user-circle"
                 style={{ marginRight: 20 }}
                 size={60} color="#444" />
               <Text style={theme.subTitle}>Lista de Usuários</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.card, theme.shadows]}
+            onPress={() => props.navigation.navigate("ViewFranUsers")}>
+            <View style={styles.cardItem}>
+              <MaterialIcons name="supervised-user-circle"
+                style={{ marginRight: 20 }}
+                size={60} color="#444" />
+              <Text style={theme.subTitle}>Lista de Usuários da Fran</Text>
             </View>
           </TouchableOpacity>
 

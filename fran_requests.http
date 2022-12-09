@@ -1,0 +1,6 @@
+GET http://177.44.248.42:3000/auth
+Authorization: Basic anVjYUBqdWNhLmNvbToxMjM0NQ==
+
+###
+GET http://177.44.248.42:3000/users
+Authorization: Basic anVjYUBqdWNhLmNvbToxMjM0NQ==

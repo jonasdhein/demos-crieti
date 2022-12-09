@@ -9,6 +9,8 @@ import ViewTasks from "./src/screens/ViewTasks";
 import ViewLogin from "./src/screens/ViewLogin";
 import ViewUsers from "./src/screens/ViewUsers";
 import ViewQuiz from "./src/screens/ViewQuiz";
+import ViewQuizResults from "./src/screens/ViewQuizResults";
+import ViewFranUsers from "./src/screens/ViewFranUsers";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -28,15 +30,10 @@ import ViewSkeleton from "./src/screens/ViewSkeleton";
 import ViewNewLogin from "./src/screens/ViewNewLogin";
 import axios from 'axios';
 import config from './src/config/config';
-import ViewQuizResults from "./src/screens/ViewQuizResults";
 
 const Stack = createNativeStackNavigator();
 
 export default function App() {
-
-  //faz com que não seja mais necessário importar o arquivo de config
-  //em todas as telas que formos utilizar o axios
-  axios.defaults.baseURL = config.baseURL;
 
   const [fontsLoaded] = useFonts({
     'Inter-Black': require('./src/assets/fonts/Inter-Black.ttf'),
@@ -56,10 +53,11 @@ export default function App() {
         <>
           <NavigationContainer>
             <Stack.Navigator
-              initialRouteName="ViewLogin"
+              initialRouteName="ViewNewLogin"
               screenOptions={{ headerShown: false }} >
               <Stack.Screen name="ViewNav1" component={ViewNav1} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
+              <Stack.Screen name="ViewFranUsers" component={ViewFranUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />
               <Stack.Screen name="ViewSkeleton" component={ViewSkeleton} />
               <Stack.Screen name="ViewLogin" component={ViewLogin} />
