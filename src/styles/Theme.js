@@ -2,6 +2,12 @@ import { Dimensions, StyleSheet } from 'react-native';
 
 const { width, height } = Dimensions.get('window');
 
+export const colors = {
+    red: '#E74C3C',
+    purple: '#8E44AD',
+    gray: '#34495E'
+}
+
 export const theme = StyleSheet.create({
     container: {
         flex: 1,
@@ -51,8 +57,10 @@ export const theme = StyleSheet.create({
         fontFamily: "AveriaLibre_700Bold"
     },
     subTitle: {
+        flex: 1,
         fontSize: 20,
-        fontFamily: "AveriaLibre_400Regular"
+        fontFamily: "AveriaLibre_400Regular",
+        textAlign: 'left'
     },
     card: {
         width: width * 0.9,
