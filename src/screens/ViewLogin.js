@@ -1,9 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
-import { theme } from '../styles/Theme';
 import Checkbox from 'expo-checkbox';
-const base64 = require('base-64');
 import * as SecureStore from 'expo-secure-store';
 import { AppContext } from '../context/AppContext';
 import * as LocalAuthentication from 'expo-local-authentication';
@@ -11,6 +9,9 @@ import { AntDesign } from '@expo/vector-icons';
 import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import config from '../config/config';
+import { apiUserService } from '../api/ApiUser/ApiUser.service';
+
+import { colors, theme } from '../styles/Theme';
 
 const ViewLogin = ({ navigation }) => {
 
@@ -66,17 +67,12 @@ const ViewLogin = ({ navigation }) => {
         setTimeout(() => {
 
             async function testLogin() {
-                const response = await fetch('http://177.44.248.30:3333/auth', {
-                    method: 'POST',
-                    headers: {
-                        'Authorization': 'Basic ' +
-                            base64.encode(user + ":" + pass)
-                    }
-                });
-                const json = await response.json();
+                const response = await apiUserService.authUser(user, pass);
+
+                console.log('USUARIO=>', response);
 
                 setLoading(false);
-                if (json.id) {
+                if (response != null) {
                     if (usuario.saveUser) {
                         await SecureStore.setItemAsync(fieldUser, usuario.username);
                         await SecureStore.setItemAsync(fieldPassword, usuario.password);
@@ -93,7 +89,8 @@ const ViewLogin = ({ navigation }) => {
 
                     axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
 
-                    saveUser(usuario.username, usuario.password);
+                    //salva as informações do usuário no contexto
+                    saveUser(response.data);
 
                     navigation.reset({
                         index: 0,
@@ -101,7 +98,7 @@ const ViewLogin = ({ navigation }) => {
                     })
 
                 } else {
-                    Alert.alert('Que pena 😥', json.message);
+                    Alert.alert('Que pena 😥', 'Erro ao realizar o login');
                 }
             }
 
@@ -176,11 +173,12 @@ const ViewLogin = ({ navigation }) => {
                     <AntDesign
                         name="login"
                         size={86}
-                        color="#555"
+                        color={colors.primary}
                         style={{ marginBottom: 50 }} />
                     <TextInput
                         keyboardType='email-address'
                         autoCapitalize='none'
+                        placeholderTextColor={colors.gray}
                         value={usuario.username}
                         onChangeText={(value) => setUsuario({ ...usuario, username: value })}
                         style={theme.input}
@@ -200,6 +198,7 @@ const ViewLogin = ({ navigation }) => {
                             onValueChange={() =>
                                 setUsuario({ ...usuario, saveUser: !usuario.saveUser })
                             }
+                            color={colors.primary}
                         />
 
                         <Text style={[theme.label, { marginLeft: 8 }]}>Manter-me conectado</Text>
@@ -208,8 +207,8 @@ const ViewLogin = ({ navigation }) => {
                     <CustomButton
                         label="ENTRAR"
                         onPress={() => login(usuario.username, usuario.password)}
-                        backgroundColor="#bebebe"
-                        textColor="#000" />
+                        backgroundColor={colors.primary}
+                        textColor={colors.secondary} />
 
                     {isBiometricSupported &&
                         <TouchableOpacity
@@ -218,7 +217,7 @@ const ViewLogin = ({ navigation }) => {
                             <Ionicons
                                 name="finger-print-outline"
                                 size={48}
-                                color="#555" />
+                                color={colors.primary} />
                         </TouchableOpacity>
                     }
                 </>
@@ -235,6 +234,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: colors.background
     },
     checkbox: {
         width: '80%',

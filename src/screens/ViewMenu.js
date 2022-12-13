@@ -3,20 +3,20 @@ import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Dimensions, Scr
 import CustomButton from '../components/CustomButton';
 import * as Animatable from 'react-native-animatable';
 import LottieView from 'lottie-react-native';
-import { theme } from '../styles/Theme';
+import { colors, theme } from '../styles/Theme';
 import { MaterialIcons } from '@expo/vector-icons';
 import Header from '../components/Header';
 import Avatar from '../components/Avatar';
 
 const { width, height } = Dimensions.get('window');
 
-const ViewNav1 = (props) => {
+const ViewMenu = (props) => {
   return (
     <SafeAreaView style={theme.safeArea}>
 
-      <Header nav={props.navigation} label="Menu"
-      avatar={<Avatar />}
-      logout={false} />
+      <Header nav={props.navigation} label="Menu Principal"
+        avatar={<Avatar />}
+        logout={true} />
 
       <ScrollView
         showsVerticalScrollIndicator={false}>
@@ -35,7 +35,7 @@ const ViewNav1 = (props) => {
             <View style={styles.cardItem}>
               <MaterialIcons name="supervised-user-circle"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
+                size={60} color={colors.alternative} />
               <Text style={theme.subTitle}>Lista de Usuários</Text>
             </View>
           </TouchableOpacity>
@@ -46,7 +46,7 @@ const ViewNav1 = (props) => {
             <View style={styles.cardItem}>
               <MaterialIcons name="supervised-user-circle"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
+                size={60} color={colors.alternative} />
               <Text style={theme.subTitle}>Lista de Usuários da Fran</Text>
             </View>
           </TouchableOpacity>
@@ -57,7 +57,7 @@ const ViewNav1 = (props) => {
             <View style={styles.cardItem}>
               <MaterialIcons name="question-answer"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
+                size={60} color={colors.alternative} />
               <Text style={theme.subTitle}>Quiz</Text>
             </View>
           </TouchableOpacity>
@@ -68,7 +68,7 @@ const ViewNav1 = (props) => {
             <View style={styles.cardItem}>
               <MaterialIcons name="list-alt"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
+                size={60} color={colors.alternative} />
               <Text style={theme.subTitle}>Lista de Tarefas</Text>
             </View>
           </TouchableOpacity>
@@ -77,9 +77,9 @@ const ViewNav1 = (props) => {
             style={[styles.card, theme.shadows]}
             onPress={() => props.navigation.navigate("ViewPicker")}>
             <View style={styles.cardItem}>
-              <MaterialIcons name="cached"
+              <MaterialIcons name="filter-list"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
+                size={60} color={colors.alternative} />
               <Text style={theme.subTitle}>Exemplos com Picker</Text>
             </View>
           </TouchableOpacity>
@@ -88,9 +88,9 @@ const ViewNav1 = (props) => {
             style={[styles.card, theme.shadows]}
             onPress={() => props.navigation.navigate("ViewState")}>
             <View style={styles.cardItem}>
-              <MaterialIcons name="cake"
+              <MaterialIcons name="cached"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
+                size={60} color={colors.alternative} />
               <Text style={theme.subTitle}>Exemplos com useState</Text>
             </View>
           </TouchableOpacity>
@@ -99,10 +99,10 @@ const ViewNav1 = (props) => {
             style={[styles.card, theme.shadows]}
             onPress={() => props.navigation.navigate("ViewEffect")}>
             <View style={styles.cardItem}>
-              <MaterialIcons name="agriculture"
+              <MaterialIcons name="mode-edit"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
-              <Text style={theme.subTitle}>Exemplos com useState</Text>
+                size={60} color={colors.alternative} />
+              <Text style={theme.subTitle}>Exemplos com useEffect</Text>
             </View>
           </TouchableOpacity>
 
@@ -112,8 +112,8 @@ const ViewNav1 = (props) => {
             <View style={styles.cardItem}>
               <MaterialIcons name="image"
                 style={{ marginRight: 20 }}
-                size={60} color="#444" />
-              <Text style={theme.subTitle}>Exemplos com useState</Text>
+                size={60} color={colors.alternative} />
+              <Text style={theme.subTitle}>Exemplos com Imagens</Text>
             </View>
           </TouchableOpacity>
 
@@ -123,7 +123,7 @@ const ViewNav1 = (props) => {
   );
 }
 
-export default ViewNav1;
+export default ViewMenu;
 
 const styles = StyleSheet.create({
   container: {
@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     padding: 8,
     marginTop: 16,
-    backgroundColor: '#f1f1f1'
+    backgroundColor: colors.secondary
   },
   cardItem: {
     flexDirection: 'row',

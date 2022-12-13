@@ -3,27 +3,32 @@ import { Dimensions, StyleSheet } from 'react-native';
 const { width, height } = Dimensions.get('window');
 
 export const colors = {
+    text: '#1DF2CB',
+    background: '#110226',
     red: '#E74C3C',
-    purple: '#8E44AD',
+    primary: '#7326BF',
+    secondary: '#1B0140',
+    alternative: '#6626A6',
     gray: '#34495E'
 }
 
 export const theme = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: colors.background,
     },
     safeArea: {
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: colors.background
     },
     login: {
         flex: 1,
-        backgroundColor: '#555'
+        backgroundColor: colors.background
     },
     input: {
         borderWidth: 1,
-        borderColor: '#555',
+        borderColor: colors.primary,
+        color: colors.primary,
         height: 42,
         borderRadius: 8,
         width: '80%',
@@ -40,7 +45,7 @@ export const theme = StyleSheet.create({
         padding: 8,
     },
     textButton: {
-        color: '#9400d3',
+        color: colors.text,
         fontSize: 24,
         fontFamily: "AveriaLibre_700Bold",
         textAlign: 'center',
@@ -50,15 +55,18 @@ export const theme = StyleSheet.create({
     },
     label: {
         fontSize: 16,
+        color: colors.text,
         fontFamily: "AveriaLibre_400Regular"
     },
     title: {
         fontSize: 26,
+        color: colors.text,
         fontFamily: "AveriaLibre_700Bold"
     },
     subTitle: {
         flex: 1,
         fontSize: 20,
+        color: colors.text,
         fontFamily: "AveriaLibre_400Regular",
         textAlign: 'left'
     },
@@ -68,10 +76,10 @@ export const theme = StyleSheet.create({
         borderRadius: 8,
         padding: 8,
         margin: 8,
-        backgroundColor: '#f1f1f1'
+        backgroundColor: colors.secondary
     },
     shadows: {
-        shadowColor: '#000',
+        shadowColor: '#111',
         shadowOffset: {
             width: 1,
             height: 3,

@@ -4,7 +4,7 @@ import ViewEffect from "./src/screens/ViewEffect";
 import ViewImages from "./src/screens/ViewImages";
 import ViewPicker from "./src/screens/ViewPicker";
 import ViewState from "./src/screens/ViewState";
-import ViewNav1 from "./src/screens/ViewNav1";
+import ViewMenu from "./src/screens/ViewMenu";
 import ViewTasks from "./src/screens/ViewTasks";
 import ViewLogin from "./src/screens/ViewLogin";
 import ViewUsers from "./src/screens/ViewUsers";
@@ -30,6 +30,7 @@ import ViewSkeleton from "./src/screens/ViewSkeleton";
 import ViewNewLogin from "./src/screens/ViewNewLogin";
 import axios from 'axios';
 import config from './src/config/config';
+import { colors } from "./src/styles/Theme";
 
 const Stack = createNativeStackNavigator();
 
@@ -53,9 +54,9 @@ export default function App() {
         <>
           <NavigationContainer>
             <Stack.Navigator
-              initialRouteName="ViewNewLogin"
-              screenOptions={{ headerShown: false }} >
-              <Stack.Screen name="ViewNav1" component={ViewNav1} />
+              initialRouteName="ViewMenu"
+              screenOptions={{ headerShown: true }} >
+              <Stack.Screen name="ViewMenu" component={ViewMenu} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewFranUsers" component={ViewFranUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />
@@ -73,8 +74,8 @@ export default function App() {
 
           <StatusBar
             translucent={false}
-            backgroundColor="#fff"
-            style="auto" />
+            backgroundColor={colors.background}
+            style="light" />
         </>
       </AppProvider>
     );

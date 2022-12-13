@@ -26,7 +26,7 @@ import ItemUser from '../components/ItemUser';
 import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
 import axios from 'axios';
-import { getUsers } from '../api/Api';
+import { getUsers } from '../api/ApiUser/ApiUser.service';
 import ItemFranUser from '../components/ItemFranUser';
 import ItemGenre from '../components/ItemGenre';
 

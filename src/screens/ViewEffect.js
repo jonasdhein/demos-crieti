@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Dimensions, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
+import { colors } from '../styles/Theme';
 
 const { width } = Dimensions.get('window');
 const widthDefault = width * 0.5;
@@ -26,11 +27,13 @@ const ViewEffect = () => {
     return (
         <View style={styles.container}>
 
-            <View style={styles.view}>
+            <View>
                 <Text style={styles.text}>Count: {count}</Text>
                
                 <CustomButton
                     label="Incrementar"
+                    backgroundColor={colors.primary}
+                    textColor={colors.text}
                     onPress={() => setCount(count + 1)}
                 />
             </View>
@@ -43,29 +46,15 @@ export default ViewEffect;
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#9400d3',
+        backgroundColor: colors.background,
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     },
-    view: {
-        width: widthDefault
-    },
-    button: {
-        backgroundColor: '#fff',
-        height: 42,
-        borderRadius: 8,
-        padding: 8,
-        marginTop: 8
-    },
     text: {
-        color: '#fff',
+        color: colors.text,
         fontSize: 32,
         textAlign: 'center',
         marginBottom: 20
-    },
-    textButton: {
-        color: '#9400d3',
-        fontSize: 24
     }
 });

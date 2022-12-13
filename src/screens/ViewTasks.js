@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Alert, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
+import { Alert, SafeAreaView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import LottieView from 'lottie-react-native';
 import Checkbox from 'expo-checkbox';
@@ -114,63 +114,66 @@ const ViewTasks = () => {
     }
 
     return (
-        <View style={styles.container}>
+        <SafeAreaView style={{ flex: 1 }}>
+            <View style={styles.container}>
 
-            <Text style={styles.label}>Tarefa</Text>
+                <Text style={styles.label}>Tarefa</Text>
 
-            <TextInput
-                keyboardType='email-address'
-                placeholder='Digite a tarefa'
-                placeholderTextColor='#ccc'
-                value={task}
-                onChangeText={(value) => setTask(value)}
-                style={styles.input} />
+                <TextInput
+                    keyboardType='email-address'
+                    placeholder='Digite a tarefa'
+                    placeholderTextColor='#ccc'
+                    value={task}
+                    onChangeText={(value) => setTask(value)}
+                    style={styles.input} />
 
-            <CustomButton
-                backgroundColor="#fff"
-                textColor="#122a57"
-                label="Salvar"
-                onPress={updateTaskList}
-            />
-            {
-                taskList != null && taskList.length > 0 ?
-                    taskList.map(item => {
-                        return (
-                            <View
-                                key={item.id}
-                                style={styles.itemList}>
-                                <Checkbox
-                                    value={item.done}
-                                    onValueChange={() => handleCheckTask(item.id)}
-                                    color={item.done ? '#444' : '#fff'}
-                                />
-                                <Text
-                                    style={[styles.itemText,
-                                    { textDecorationLine: item.done ? 'line-through' : 'none' }]}>
-                                    {item.name}
-                                </Text>
-                                <TouchableOpacity
-                                    onPress={() => deleteTask(item.id)}>
-                                    <Ionicons name="trash-outline" size={24} color="#fff" />
-                                </TouchableOpacity>
-                            </View>
-                        )
-                    })
-                    :
-                    <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
-                        <LottieView
-                            autoPlay
-                            loop={true}
-                            style={{
-                                width: 250,
-                                height: 250,
-                            }}
-                            source={require('../assets/animations/empty.json')}
-                        />
-                        <Text style={{ color: '#bebebe', fontSize: 20 }}>Lista vazia</Text>
-                    </View>
-            }
-        </View>
+                <CustomButton
+                    backgroundColor="#fff"
+                    textColor="#122a57"
+                    label="Salvar"
+                    width="100%"
+                    onPress={updateTaskList}
+                />
+                {
+                    taskList != null && taskList.length > 0 ?
+                        taskList.map(item => {
+                            return (
+                                <View
+                                    key={item.id}
+                                    style={styles.itemList}>
+                                    <Checkbox
+                                        value={item.done}
+                                        onValueChange={() => handleCheckTask(item.id)}
+                                        color={item.done ? '#444' : '#fff'}
+                                    />
+                                    <Text
+                                        style={[styles.itemText,
+                                        { textDecorationLine: item.done ? 'line-through' : 'none' }]}>
+                                        {item.name}
+                                    </Text>
+                                    <TouchableOpacity
+                                        onPress={() => deleteTask(item.id)}>
+                                        <Ionicons name="trash-outline" size={24} color="#fff" />
+                                    </TouchableOpacity>
+                                </View>
+                            )
+                        })
+                        :
+                        <View style={{ flex: 1, width: '100%', justifyContent: 'center', alignItems: 'center' }}>
+                            <LottieView
+                                autoPlay
+                                loop={true}
+                                style={{
+                                    width: 250,
+                                    height: 250,
+                                }}
+                                source={require('../assets/animations/empty.json')}
+                            />
+                            <Text style={{ color: '#bebebe', fontSize: 20 }}>Lista vazia</Text>
+                        </View>
+                }
+            </View>
+        </SafeAreaView>
     );
 }
 
