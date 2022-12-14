@@ -1,3 +1,5 @@
+import 'react-native-gesture-handler';
+
 import { StatusBar } from "expo-status-bar";
 
 import ViewEffect from "./src/screens/ViewEffect";
@@ -11,10 +13,14 @@ import ViewUsers from "./src/screens/ViewUsers";
 import ViewQuiz from "./src/screens/ViewQuiz";
 import ViewQuizResults from "./src/screens/ViewQuizResults";
 import ViewFranUsers from "./src/screens/ViewFranUsers";
+import ViewCharts from "./src/screens/ViewCharts";
+
+import TabMenu from "./src/stacks/TabMenu";
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { ActivityIndicator, SafeAreaView } from "react-native";
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { ActivityIndicator } from "react-native";
 
 import { AveriaLibre_300Light, AveriaLibre_400Regular, AveriaLibre_700Bold } from '@expo-google-fonts/averia-libre'
 
@@ -31,9 +37,9 @@ import ViewNewLogin from "./src/screens/ViewNewLogin";
 import axios from 'axios';
 import config from './src/config/config';
 import { colors } from "./src/styles/Theme";
-import ViewCharts from "./src/screens/ViewCharts";
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
 
@@ -57,6 +63,7 @@ export default function App() {
             <Stack.Navigator
               initialRouteName="ViewLogin"
               screenOptions={{ headerShown: true }} >
+
               <Stack.Screen name="ViewMenu" component={ViewMenu} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewFranUsers" component={ViewFranUsers} />

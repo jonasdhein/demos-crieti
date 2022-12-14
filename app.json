@@ -46,5 +46,13 @@
         "svg"
       ]
     }
-  }
+  },
+  "plugins": [
+    [
+      "expo-image-picker",
+      {
+        "photosPermission": "O App deseja ter acesso a suas fotos para trocar o ícone do usuário."
+      }
+    ]
+  ]
 }

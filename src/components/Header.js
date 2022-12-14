@@ -8,6 +8,7 @@ const { width, height } = Dimensions.get('window');
 const widthScreen = width * 0.95;
 
 const Header = ({ label, logout, avatar }) => {
+
     return (
         <View style={styles.header}>
             <View style={styles.headerLeft}>

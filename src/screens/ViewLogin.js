@@ -12,6 +12,7 @@ import config from '../config/config';
 import { apiUserService } from '../api/ApiUser/ApiUser.service';
 
 import { colors, theme } from '../styles/Theme';
+import CustomInput from '../components/CustomInput';
 
 const base64 = require('base-64');
 
@@ -73,7 +74,6 @@ const ViewLogin = ({ navigation }) => {
 
                 console.log('USUARIO=>', response);
 
-                setLoading(false);
                 if (response != null) {
                     if (usuario.saveUser) {
                         await SecureStore.setItemAsync(fieldUser, usuario.username);
@@ -99,7 +99,10 @@ const ViewLogin = ({ navigation }) => {
                         routes: [{ name: "ViewMenu" }]
                     })
 
+                    setLoading(false);
+
                 } else {
+                    setLoading(false);
                     Alert.alert('Que pena 😥', 'Erro ao realizar o login');
                 }
             }
@@ -177,22 +180,23 @@ const ViewLogin = ({ navigation }) => {
                         size={86}
                         color={colors.primary}
                         style={{ marginBottom: 50 }} />
-                    <TextInput
-                        keyboardType='email-address'
-                        autoCapitalize='none'
-                        placeholderTextColor={colors.gray}
-                        value={usuario.username}
-                        onChangeText={(value) => setUsuario({ ...usuario, username: value })}
-                        style={theme.input}
-                        placeholder="Usuário" />
 
-                    <TextInput
-                        secureTextEntry={true}
+                    <CustomInput
+                        keyboardType="email-address"
+                        value={usuario.username}
+                        iconName={"mail-outline"}
+                        onChangeText={(value) => setUsuario({ ...usuario, username: value })}
+                        placeholder="E-mail"
+                        password={false}
+                    />
+
+                    <CustomInput
                         value={usuario.password}
-                        autoCapitalize='none'
+                        iconName={"lock-outline"}
                         onChangeText={(value) => setUsuario({ ...usuario, password: value })}
-                        style={theme.input}
-                        placeholder="Senha" />
+                        placeholder="Senha"
+                        password={true}
+                    />
 
                     <View style={styles.checkbox}>
                         <Checkbox

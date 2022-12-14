@@ -9,7 +9,8 @@ export const colors = {
     primary: '#7326BF',
     secondary: '#1B0140',
     alternative: '#6626A6',
-    gray: '#34495E'
+    gray: '#34495E',
+    placeholder: '#aaa'
 }
 
 export const theme = StyleSheet.create({
@@ -28,7 +29,7 @@ export const theme = StyleSheet.create({
     input: {
         borderWidth: 1,
         borderColor: colors.primary,
-        color: colors.primary,
+        color: colors.text,
         height: 42,
         borderRadius: 8,
         width: '80%',
