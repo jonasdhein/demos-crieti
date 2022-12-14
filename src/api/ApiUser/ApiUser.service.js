@@ -34,6 +34,8 @@ async function getUsers() {
     try {
         const response = await axios.get('/users');
 
+        console.log('RESP=>', response.data);
+
         if (response.status == 200) {
             return response.data;
         } else {

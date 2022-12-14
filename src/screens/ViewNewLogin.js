@@ -57,7 +57,7 @@ const ViewNewLogin = ({ navigation }) => {
 
                 navigation.reset({
                     index: 0,
-                    routes: [{ name: "ViewNav1" }]
+                    routes: [{ name: "ViewMenu" }]
                 })
 
             } catch (error) {

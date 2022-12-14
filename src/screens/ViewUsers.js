@@ -25,7 +25,7 @@ import ItemUser from '../components/ItemUser';
 import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
 import axios from 'axios';
-import { getUsers, putUser, postUser, deleteUser } from '../api/ApiUser/ApiUser.service';
+import { apiUserService } from '../api/ApiUser/ApiUser.service';
 
 const { width, height } = Dimensions.get('window');
 
@@ -81,7 +81,7 @@ export default ViewUsers = ({ navigation, route }) => {
                 {
                     onPress: async () => {
 
-                        const response = await deleteUser(`/users/${id}`);
+                        const response = await apiUserService.deleteUser(`/users/${id}`);
 
                         if (response) {
                             Alert.alert('Usuário excluído com sucesso')
@@ -122,7 +122,7 @@ export default ViewUsers = ({ navigation, route }) => {
             }
 
             if (user.id > 0) {
-                const response = await putUser(payload);
+                const response = await apiUserService.putUser(payload);
 
                 if (response != null) {
 
@@ -134,7 +134,7 @@ export default ViewUsers = ({ navigation, route }) => {
                     Alert.alert('Ops', 'Erro ao salvar usuário');
                 }
             } else {
-                const response = await postUser(payload);
+                const response = await apiUserService.postUser(payload);
 
                 if (response != null) {
 
@@ -157,7 +157,7 @@ export default ViewUsers = ({ navigation, route }) => {
 
         setLoading(true);
 
-        const response = await getUsers();
+        const response = await apiUserService.getUsers();
 
         if (response != null) {
             setUsers(response);

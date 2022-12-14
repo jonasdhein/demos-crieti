@@ -13,6 +13,8 @@ import { apiUserService } from '../api/ApiUser/ApiUser.service';
 
 import { colors, theme } from '../styles/Theme';
 
+const base64 = require('base-64');
+
 const ViewLogin = ({ navigation }) => {
 
     //faz com que não seja mais necessário importar o arquivo de config
@@ -94,7 +96,7 @@ const ViewLogin = ({ navigation }) => {
 
                     navigation.reset({
                         index: 0,
-                        routes: [{ name: "ViewNav1" }]
+                        routes: [{ name: "ViewMenu" }]
                     })
 
                 } else {

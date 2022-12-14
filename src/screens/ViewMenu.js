@@ -26,11 +26,22 @@ const ViewMenu = (props) => {
 
           <TouchableOpacity
             style={[styles.card, theme.shadows]}
-            onPress={() => props.navigation.navigate("ViewUsers", 
-            {
-              parametro1: "PARAM1",
-              parametro2: "PARAM2",
-            }
+            onPress={() => props.navigation.navigate("ViewCharts")}>
+            <View style={styles.cardItem}>
+              <MaterialIcons name="show-chart"
+                style={{ marginRight: 20 }}
+                size={60} color={colors.alternative} />
+              <Text style={theme.subTitle}>Gráficos</Text>
+            </View>
+          </TouchableOpacity>
+
+          <TouchableOpacity
+            style={[styles.card, theme.shadows]}
+            onPress={() => props.navigation.navigate("ViewUsers",
+              {
+                parametro1: "PARAM1",
+                parametro2: "PARAM2",
+              }
             )}>
             <View style={styles.cardItem}>
               <MaterialIcons name="supervised-user-circle"

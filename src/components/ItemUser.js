@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, Text } from 'react-native';
 import { AntDesign } from '@expo/vector-icons';
-import { theme } from '../styles/Theme';
+import { colors, theme } from '../styles/Theme';
 
 // import { Container } from './styles';
 
@@ -21,7 +21,7 @@ const ItemUser = ({ item, alterUser, deleteUser }) => {
                     <Text style={styles.subtitleCard}>{item.email}</Text>
                 </View>
             </View>
-            <AntDesign name="right" size={24} color="black" />
+            <AntDesign name="right" size={24} color={colors.primary} />
         </TouchableOpacity>
     );
 }
@@ -33,18 +33,18 @@ const styles = StyleSheet.create({
         borderRadius: 16,
         padding: 8,
         height: 55,
-        backgroundColor: '#f1f1f1',
+        backgroundColor: colors.secondary,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
     titleCard: {
-        color: '#000',
+        color: colors.text,
         fontSize: 16,
         fontFamily: "RobotoSlab_700Bold",
     },
     subtitleCard: {
-        color: '#555',
+        color: colors.text,
         fontSize: 13,
         fontFamily: "RobotoSlab_300Light",
     }

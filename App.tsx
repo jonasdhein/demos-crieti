@@ -31,6 +31,7 @@ import ViewNewLogin from "./src/screens/ViewNewLogin";
 import axios from 'axios';
 import config from './src/config/config';
 import { colors } from "./src/styles/Theme";
+import ViewCharts from "./src/screens/ViewCharts";
 
 const Stack = createNativeStackNavigator();
 
@@ -54,13 +55,14 @@ export default function App() {
         <>
           <NavigationContainer>
             <Stack.Navigator
-              initialRouteName="ViewMenu"
+              initialRouteName="ViewLogin"
               screenOptions={{ headerShown: true }} >
               <Stack.Screen name="ViewMenu" component={ViewMenu} />
               <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewFranUsers" component={ViewFranUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />
               <Stack.Screen name="ViewSkeleton" component={ViewSkeleton} />
+              <Stack.Screen name="ViewCharts" component={ViewCharts} />
               <Stack.Screen name="ViewLogin" component={ViewLogin} />
               <Stack.Screen name="ViewState" component={ViewState} />
               <Stack.Screen name="ViewEffect" component={ViewEffect} />
