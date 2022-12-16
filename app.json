@@ -18,14 +18,20 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.jonasdhein.crieti"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
       },
-      "package": "com.jonasdhein.crieti"
+      "package": "com.jonasdhein.crieti",
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION",
+        "FOREGROUND_SERVICE"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
@@ -45,6 +51,11 @@
         "wasm",
         "svg"
       ]
+    },
+    "extra": {
+      "eas": {
+        "projectId": "ee270a38-87fa-453d-a288-569f3d5eea7f"
+      }
     }
   },
   "plugins": [
@@ -52,7 +63,12 @@
       "expo-image-picker",
       {
         "photosPermission": "O App deseja ter acesso a suas fotos para trocar o ícone do usuário."
-      }
+      },
+      "expo-notifications",
+        {
+          "icon": "./assets/icon.png",
+          "color": "#ffffff"
+        }
     ]
   ]
 }

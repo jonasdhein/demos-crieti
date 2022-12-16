@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { View, SafeAreaView, StyleSheet, Text, TouchableOpacity, Dimensions, ScrollView } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import * as Animatable from 'react-native-animatable';
@@ -11,11 +11,12 @@ import Avatar from '../components/Avatar';
 const { width, height } = Dimensions.get('window');
 
 const ViewMenu = (props) => {
+
   return (
     <SafeAreaView style={theme.safeArea}>
 
-      <Header nav={props.navigation} label="Menu Principal"
-        avatar={<Avatar />}
+      <Header navigation={props.navigation} label="Menu Principal"
+        leftItem={<Avatar />}
         logout={true} />
 
       <ScrollView

@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Dimensions, SafeAreaView, Text, View } from 'react-native';
 import { BarChart, LineChart, PieChart, ProgressChart } from 'react-native-chart-kit';
 import { ScrollView } from 'react-native-gesture-handler';
+import Header from '../components/Header';
 import { colors, theme } from '../styles/Theme';
 
 // import { Container } from './styles';
 
 const { width } = Dimensions.get('window');
 
-const ViewCharts = () => {
+const ViewCharts = ({ navigation }) => {
+
+    useEffect(() => {
+        console.log('PASSOU POR GRAFICOS')
+      })
 
     const data = {
         labels: ["January", "February", "March", "April", "May", "June"],
@@ -24,7 +29,7 @@ const ViewCharts = () => {
 
     const dataProgress = {
         labels: ["Swim", "Bike", "Run"], // optional
-        data: [0.4, 0.6, 0.8]
+        data: [0.2, 0.5, 1]
     };
 
     const dataBar = {
@@ -41,7 +46,7 @@ const ViewCharts = () => {
         backgroundGradientFromOpacity: 0,
         backgroundGradientTo: "#08130D",
         backgroundGradientToOpacity: 0.5,
-        color: (opacity = 1) => `rgba(26, 255, 146, ${opacity})`,
+        color: (opacity = 1) => colors.chart,
         strokeWidth: 2, // optional, default 3
         barPercentage: 0.5,
         useShadowColorFromDataset: false // optional
@@ -49,18 +54,24 @@ const ViewCharts = () => {
 
     return (
         <SafeAreaView style={theme.container}>
-            <View style={theme.container}>
-                <ScrollView>
-                    <>
-                        <Text>
-                            Bezier Line Chart
-                        </Text>
 
+            <Header
+                navigation={navigation}
+                label="Gráficos"
+                logout={false} />
+
+            <View style={theme.container}>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}>
+                    <>
                         <LineChart
                             data={data}
                             width={width}
                             height={220}
                             chartConfig={chartConfig}
+                            fromZero={true}
+                            withHorizontalLines={false}
+                            withVerticalLines={false}
                         />
 
                         <LineChart
@@ -70,6 +81,7 @@ const ViewCharts = () => {
                             verticalLabelRotation={30}
                             chartConfig={chartConfig}
                             bezier
+                            fromZero={true}
                         />
 
                         <ProgressChart
@@ -87,8 +99,10 @@ const ViewCharts = () => {
                             width={width}
                             height={250}
                             yAxisLabel="R$ "
+                            yAxisSuffix=''
                             chartConfig={chartConfig}
-                            verticalLabelRotation={20}
+                            verticalLabelRotation={10}
+                            fromZero={true}
                         />
                     </>
                 </ScrollView>

@@ -2,17 +2,28 @@ import React from 'react';
 import { StyleSheet, View, Text, Dimensions } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { colors, theme } from '../styles/Theme';
+import { MaterialIcons } from '@expo/vector-icons';
+import { messages } from '../utils/messages';
 
 const { width, height } = Dimensions.get('window');
 
 const widthScreen = width * 0.95;
 
-const Header = ({ label, logout, avatar }) => {
+const Header = ({ navigation, label, logout, leftItem }) => {
 
     return (
         <View style={styles.header}>
             <View style={styles.headerLeft}>
-                {avatar}
+                {leftItem ? leftItem : navigation.canGoBack() ?
+                    <TouchableOpacity
+                        onPress={() => navigation.goBack()}>
+                        <MaterialIcons
+                            name="arrow-back-ios"
+                            size={24}
+                            color={colors.text} />
+                    </TouchableOpacity>
+                    :
+                    <></>}
             </View>
 
             <View style={styles.headerText}>
@@ -20,7 +31,9 @@ const Header = ({ label, logout, avatar }) => {
             </View>
 
             {logout ?
-                <TouchableOpacity style={styles.logout}>
+                <TouchableOpacity
+                    onPress={() => messages.success('Sair', 'saindo...')}
+                    style={styles.logout}>
                     <Text style={[theme.title, { color: colors.red }]}>Sair</Text>
                 </TouchableOpacity>
                 :

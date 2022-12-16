@@ -26,6 +26,7 @@ import ItemSex from '../components/ItemSex';
 import CustomButton from '../components/CustomButton';
 import axios from 'axios';
 import { apiUserService } from '../api/ApiUser/ApiUser.service';
+import Header from '../components/Header';
 
 const { width, height } = Dimensions.get('window');
 
@@ -171,6 +172,12 @@ export default ViewUsers = ({ navigation, route }) => {
 
     return (
         <SafeAreaView style={theme.safeArea}>
+
+            <Header
+                navigation={navigation}
+                label="Lista de Usuários"
+                logout={false} />
+
             <View style={theme.container}>
                 {/* <SkeletonPlaceholder
                 speed={600}>

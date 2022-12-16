@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect, useRef, useState } from 'react';
 import { ActivityIndicator, Alert, KeyboardAvoidingView, Platform, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native';
 import CustomButton from '../components/CustomButton';
 import Checkbox from 'expo-checkbox';
@@ -10,11 +10,21 @@ import { Ionicons } from '@expo/vector-icons';
 import axios from 'axios';
 import config from '../config/config';
 import { apiUserService } from '../api/ApiUser/ApiUser.service';
+import * as Notifications from 'expo-notifications';
 
 import { colors, theme } from '../styles/Theme';
 import CustomInput from '../components/CustomInput';
+import { messages } from '../utils/messages';
 
 const base64 = require('base-64');
+
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: true,
+    }),
+});
 
 const ViewLogin = ({ navigation }) => {
 
@@ -33,7 +43,28 @@ const ViewLogin = ({ navigation }) => {
 
     const { saveUser } = useContext(AppContext)
 
+    const [expoPushToken, setExpoPushToken] = useState('');
+    const notificationListener = useRef();
+    const responseListener = useRef();
+
     const [isBiometricSupported, setIsBiometricSupported] = useState(false);
+
+    useEffect(() => {
+        registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+        notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+            console.log('NOTIFICATION=>', notification);
+        });
+
+        responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+            console.log('RESPONSE=>', response);
+        });
+
+        return () => {
+            Notifications.removeNotificationSubscription(notificationListener.current);
+            Notifications.removeNotificationSubscription(responseListener.current);
+        };
+    }, []);
 
     // Check if hardware supports biometrics
     useEffect(() => {
@@ -63,53 +94,82 @@ const ViewLogin = ({ navigation }) => {
 
     }, []) //seja executado somente na primeira renderizacao do componente
 
+    async function registerForPushNotificationsAsync() {
+        let token;
+
+        if (Platform.OS === 'android') {
+            await Notifications.setNotificationChannelAsync('default', {
+                name: 'default',
+                importance: Notifications.AndroidImportance.MAX,
+                vibrationPattern: [0, 250, 250, 250],
+                lightColor: '#FF231F7C',
+            });
+        }
+
+        //if (Device.isDevice) {
+            const { status: existingStatus } = await Notifications.getPermissionsAsync();
+            let finalStatus = existingStatus;
+            if (existingStatus !== 'granted') {
+                const { status } = await Notifications.requestPermissionsAsync();
+                finalStatus = status;
+            }
+            if (finalStatus !== 'granted') {
+                Alert.alert('Failed to get push token for push notification!');
+                return;
+            }
+            token = (await Notifications.getExpoPushTokenAsync()).data;
+            console.log(token);
+        //} else {
+        //    alert('Must use physical device for Push Notifications');
+        //}
+
+        return token;
+    }
+
     function login(user, pass) {
 
         setLoading(true);
 
-        setTimeout(() => {
+        async function testLogin() {
+            const response = await apiUserService.authUser(user, pass);
 
-            async function testLogin() {
-                const response = await apiUserService.authUser(user, pass);
+            console.log('USUARIO=>', response);
 
-                console.log('USUARIO=>', response);
-
-                if (response != null) {
-                    if (usuario.saveUser) {
-                        await SecureStore.setItemAsync(fieldUser, usuario.username);
-                        await SecureStore.setItemAsync(fieldPassword, usuario.password);
-                        console.log("gravou");
-                    } else {
-                        await SecureStore.deleteItemAsync(fieldUser);
-                        await SecureStore.deleteItemAsync(fieldPassword);
-                    }
-
-                    //navegar adiante
-
-                    const AUTH_TOKEN = 'Basic ' +
-                        base64.encode(usuario.username + ":" + usuario.password);
-
-                    axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
-
-                    //salva as informações do usuário no contexto
-                    saveUser(response.data);
-
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: "ViewMenu" }]
-                    })
-
-                    setLoading(false);
-
+            if (response != null) {
+                if (usuario.saveUser) {
+                    await SecureStore.setItemAsync(fieldUser, usuario.username);
+                    await SecureStore.setItemAsync(fieldPassword, usuario.password);
+                    console.log("gravou");
                 } else {
-                    setLoading(false);
-                    Alert.alert('Que pena 😥', 'Erro ao realizar o login');
+                    await SecureStore.deleteItemAsync(fieldUser);
+                    await SecureStore.deleteItemAsync(fieldPassword);
                 }
+
+                //navegar adiante
+
+                const AUTH_TOKEN = 'Basic ' +
+                    base64.encode(usuario.username + ":" + usuario.password);
+
+                axios.defaults.headers.common['Authorization'] = AUTH_TOKEN;
+
+                //salva as informações do usuário no contexto
+                saveUser(response.data);
+
+                navigation.reset({
+                    index: 0,
+                    routes: [{ name: "ViewMenu" }]
+                })
+
+                setLoading(false);
+                messages.success('', 'Acessando o App...');
+
+            } else {
+                setLoading(false);
+                messages.error('Erro', 'Não foi possível realizar o login');
             }
+        }
 
-            testLogin();
-
-        }, 900)
+        testLogin();
 
     }
 
@@ -240,7 +300,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: colors.background
+        backgroundColor: colors.background,
+        paddingHorizontal: 8
     },
     checkbox: {
         width: '80%',

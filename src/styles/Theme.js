@@ -10,7 +10,8 @@ export const colors = {
     secondary: '#1B0140',
     alternative: '#6626A6',
     gray: '#34495E',
-    placeholder: '#aaa'
+    placeholder: '#aaa',
+    chart: '#1aff92'
 }
 
 export const theme = StyleSheet.create({

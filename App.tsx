@@ -14,7 +14,8 @@ import ViewQuiz from "./src/screens/ViewQuiz";
 import ViewQuizResults from "./src/screens/ViewQuizResults";
 import ViewFranUsers from "./src/screens/ViewFranUsers";
 import ViewCharts from "./src/screens/ViewCharts";
-
+import ViewMaps1 from './src/screens/ViewMaps1';
+import ViewMap from './src/screens/ViewMap';
 import TabMenu from "./src/stacks/TabMenu";
 
 import { NavigationContainer } from '@react-navigation/native';
@@ -22,6 +23,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { ActivityIndicator } from "react-native";
 
+import Toast from 'react-native-toast-message';
 import { AveriaLibre_300Light, AveriaLibre_400Regular, AveriaLibre_700Bold } from '@expo-google-fonts/averia-libre'
 
 import {
@@ -59,15 +61,20 @@ export default function App() {
     return (
       <AppProvider>
         <>
+          <StatusBar
+            translucent={false}
+            backgroundColor={colors.background}
+            style="light" />
+
           <NavigationContainer>
             <Stack.Navigator
-              initialRouteName="ViewLogin"
-              screenOptions={{ headerShown: true }} >
+              initialRouteName="ViewMap"
+              screenOptions={{ headerShown: false }} >
 
               <Stack.Screen name="ViewMenu" component={ViewMenu} />
-              <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewFranUsers" component={ViewFranUsers} />
               <Stack.Screen name="ViewNewLogin" component={ViewNewLogin} />
+              <Stack.Screen name="ViewUsers" component={ViewUsers} />
               <Stack.Screen name="ViewSkeleton" component={ViewSkeleton} />
               <Stack.Screen name="ViewCharts" component={ViewCharts} />
               <Stack.Screen name="ViewLogin" component={ViewLogin} />
@@ -76,15 +83,14 @@ export default function App() {
               <Stack.Screen name="ViewImages" component={ViewImages} />
               <Stack.Screen name="ViewPicker" component={ViewPicker} />
               <Stack.Screen name="ViewTasks" component={ViewTasks} />
+              <Stack.Screen name="ViewMap" component={ViewMap} />
+              <Stack.Screen name="ViewMaps1" component={ViewMaps1} />
               <Stack.Screen name="ViewQuiz" component={ViewQuiz} />
               <Stack.Screen name="ViewQuizResults" component={ViewQuizResults} />
             </Stack.Navigator>
           </NavigationContainer>
 
-          <StatusBar
-            translucent={false}
-            backgroundColor={colors.background}
-            style="light" />
+          <Toast />
         </>
       </AppProvider>
     );
